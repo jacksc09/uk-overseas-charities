@@ -2,3 +2,5 @@ pandas
 requests
 tenacity
 python-dotenv
+anthropic
+jsonschema

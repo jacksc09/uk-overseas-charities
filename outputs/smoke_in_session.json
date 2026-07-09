@@ -1,0 +1,102 @@
+[
+  {
+    "organisation_number": 202918,
+    "charity_name": "OXFAM",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [16, 10], "focus_summary": "Relieves poverty worldwide through humanitarian relief, development work and campaigning.", "sdg_confidence": "high", "overseas_engagement": "operates_directly_abroad", "engagement_confidence": "high"}
+  },
+  {
+    "organisation_number": 207544,
+    "charity_name": "ROYAL COMMONWEALTH SOCIETY FOR THE BLIND",
+    "parsed": {"primary_sdg": 3, "primary_sdg_title": "Good Health and Well-being", "secondary_sdgs": [10, 1], "focus_summary": "Works with partners in developing countries to prevent and treat avoidable blindness.", "sdg_confidence": "high", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "high"}
+  },
+  {
+    "organisation_number": 213890,
+    "charity_name": "THE SAVE THE CHILDREN FUND",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [3], "focus_summary": "Relieves distress and promotes the welfare of children in any country.", "sdg_confidence": "medium", "overseas_engagement": "operates_directly_abroad", "engagement_confidence": "low"}
+  },
+  {
+    "organisation_number": 220949,
+    "charity_name": "THE BRITISH RED CROSS SOCIETY",
+    "parsed": {"primary_sdg": 3, "primary_sdg_title": "Good Health and Well-being", "secondary_sdgs": [11, 16], "focus_summary": "Responds to disasters, conflicts and emergencies in the UK and overseas.", "sdg_confidence": "high", "overseas_engagement": "operates_directly_abroad", "engagement_confidence": "high"}
+  },
+  {
+    "organisation_number": 265464,
+    "charity_name": "TEARFUND",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [3], "focus_summary": "Christian agency partnering with local churches to relieve poverty and respond to crises.", "sdg_confidence": "high", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "high"}
+  },
+  {
+    "organisation_number": 288701,
+    "charity_name": "WATERAID",
+    "parsed": {"primary_sdg": 6, "primary_sdg_title": "Clean Water and Sanitation", "secondary_sdgs": [3, 1], "focus_summary": "Works internationally to make clean water, sanitation and hygiene normal for everyone.", "sdg_confidence": "high", "overseas_engagement": "operates_directly_abroad", "engagement_confidence": "medium"}
+  },
+  {
+    "organisation_number": 290836,
+    "charity_name": "APT ACTION ON POVERTY",
+    "parsed": {"primary_sdg": 8, "primary_sdg_title": "Decent Work and Economic Growth", "secondary_sdgs": [1], "focus_summary": "Builds livelihoods and enterprise skills with communities in East and West Africa.", "sdg_confidence": "high", "overseas_engagement": "operates_directly_abroad", "engagement_confidence": "medium"}
+  },
+  {
+    "organisation_number": 4010072,
+    "charity_name": "CHRISTIAN AID",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [2, 16], "focus_summary": "Works with partners worldwide to tackle the causes and consequences of poverty.", "sdg_confidence": "high", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "medium"}
+  },
+  {
+    "organisation_number": 5280644,
+    "charity_name": "AR RAUF EDUCATION TRUST",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [4, 3], "focus_summary": "Provides essentials, healthcare access and education support to people in Bangladesh.", "sdg_confidence": "medium", "overseas_engagement": "operates_directly_abroad", "engagement_confidence": "low"}
+  },
+  {
+    "organisation_number": 5266273,
+    "charity_name": "THAI ELEPHANT RELIEF",
+    "parsed": {"primary_sdg": 15, "primary_sdg_title": "Life on Land", "secondary_sdgs": [], "focus_summary": "Supports sanctuaries caring for Asian elephants in Thailand.", "sdg_confidence": "high", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "medium"}
+  },
+  {
+    "organisation_number": 5254147,
+    "charity_name": "CARING AID",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [3, 4], "focus_summary": "Relieves poverty through food, education and healthcare support in Nigeria and the West Midlands.", "sdg_confidence": "medium", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "low"}
+  },
+  {
+    "organisation_number": 5195156,
+    "charity_name": "MANEKPORE TAKOLI MUSLIM WELFARE ASSOCIATION",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [3, 4], "focus_summary": "Makes grants for poverty relief and supports Islamic education.", "sdg_confidence": "medium", "overseas_engagement": "uk_fundraising_only", "engagement_confidence": "low"}
+  },
+  {
+    "organisation_number": 5275219,
+    "charity_name": "GREATER BHARERA DEVELOPMENT ORGANISATION UK",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [4, 3], "focus_summary": "Relieves poverty and supports education, health and disaster relief in the UK and Bangladesh.", "sdg_confidence": "medium", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "low"}
+  },
+  {
+    "organisation_number": 5239142,
+    "charity_name": "CHAFRITY: CHILDRENS AFRICAN CHARITY",
+    "parsed": {"primary_sdg": 4, "primary_sdg_title": "Quality Education", "secondary_sdgs": [1], "focus_summary": "Funds orphanages and children's homes in Africa with financial and educational support.", "sdg_confidence": "medium", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "high"}
+  },
+  {
+    "organisation_number": 5002180,
+    "charity_name": "ONE COMMUNITY ORGANISATION",
+    "parsed": {"primary_sdg": 4, "primary_sdg_title": "Quality Education", "secondary_sdgs": [10, 1], "focus_summary": "Runs education events for deaf, blind and SEN people and supports humanitarian aid worldwide.", "sdg_confidence": "medium", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "low"}
+  },
+  {
+    "organisation_number": 5113834,
+    "charity_name": "Hope 4 Humanity Appeal",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [3, 2], "focus_summary": "Provides emergency relief, food and aid packages worldwide, directly or via partners.", "sdg_confidence": "medium", "overseas_engagement": "operates_directly_abroad", "engagement_confidence": "medium"}
+  },
+  {
+    "organisation_number": 5088909,
+    "charity_name": "FAIZ PUR SHARIF UNION COUNCIL WELFARE TRUST",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [3, 8], "focus_summary": "Makes grants for poverty relief, health and employment in Azad Kashmir, Pakistan.", "sdg_confidence": "high", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "high"}
+  },
+  {
+    "organisation_number": 1047377,
+    "charity_name": "POWER AND GLORY DAY MINISTRY",
+    "parsed": {"primary_sdg": 16, "primary_sdg_title": "Peace, Justice and Strong Institutions", "secondary_sdgs": [], "focus_summary": "Advances the Christian religion; no further detail provided.", "sdg_confidence": "low", "overseas_engagement": "uk_fundraising_only", "engagement_confidence": "low"}
+  },
+  {
+    "organisation_number": 4043843,
+    "charity_name": "THREE PILLARS TRUST",
+    "parsed": {"primary_sdg": 1, "primary_sdg_title": "No Poverty", "secondary_sdgs": [4, 16], "focus_summary": "Relieves poverty and advances education and religion in the Orthodox Jewish community.", "sdg_confidence": "medium", "overseas_engagement": "uk_fundraising_only", "engagement_confidence": "low"}
+  },
+  {
+    "organisation_number": 4004515,
+    "charity_name": "AGAPE ALIVE IN INDIA",
+    "parsed": {"primary_sdg": 4, "primary_sdg_title": "Quality Education", "secondary_sdgs": [3, 16], "focus_summary": "Supports church planting, schools, medical facilities and orphanages in India.", "sdg_confidence": "medium", "overseas_engagement": "funds_partners_abroad", "engagement_confidence": "medium"}
+  }
+]

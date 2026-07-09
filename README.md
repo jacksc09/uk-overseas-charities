@@ -6,7 +6,10 @@ geocoded to their head-office postcodes, and prepared for thematic
 classification (UN Sustainable Development Goals plus a three-way overseas
 engagement flag).
 
-**Status: work in progress** — data spine and geocoding (Day 1 of 3).
+**Status: work in progress.** Data spine complete: 19,688 active
+internationally operating charities identified from the 2026-07-09 register
+snapshot, 95.8% geocoded (2.3% missing postcode, 1.9% unmatched).
+Classification stage is next.
 
 ## What this repo does
 

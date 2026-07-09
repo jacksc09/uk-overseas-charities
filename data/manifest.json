@@ -1,0 +1,70 @@
+{
+  "downloaded_at_utc": "2026-07-09T10:20:36+00:00",
+  "source": "Charity Commission for England and Wales, full register download",
+  "licence": "Open Government Licence v3.0",
+  "files": [
+    {
+      "table": "publicextract.charity",
+      "url": "https://ccewuksprdoneregsadata1.blob.core.windows.net/data/json/publicextract.charity.zip",
+      "zip_sha256": "42354895cd994327ba93422395b8a3d018b99b57fa51b66f9670be4964e5af52",
+      "zip_bytes": 56622405,
+      "extracted": [
+        "publicextract.charity.json"
+      ]
+    },
+    {
+      "table": "publicextract.charity_area_of_operation",
+      "url": "https://ccewuksprdoneregsadata1.blob.core.windows.net/data/json/publicextract.charity_area_of_operation.zip",
+      "zip_sha256": "9ffb01f93bbc880429b7e7e114b71f2ed7d59db2fe4f1e0392520fbb62fec2a7",
+      "zip_bytes": 6252423,
+      "extracted": [
+        "publicextract.charity_area_of_operation.json"
+      ]
+    },
+    {
+      "table": "publicextract.charity_annual_return_history",
+      "url": "https://ccewuksprdoneregsadata1.blob.core.windows.net/data/json/publicextract.charity_annual_return_history.zip",
+      "zip_sha256": "a727fc6751bcbd2c46d0e8f2ef023cf40b79804f0eb9229ac1d69db279e8f778",
+      "zip_bytes": 27741944,
+      "extracted": [
+        "publicextract.charity_annual_return_history.json"
+      ]
+    },
+    {
+      "table": "publicextract.charity_annual_return_parta",
+      "url": "https://ccewuksprdoneregsadata1.blob.core.windows.net/data/json/publicextract.charity_annual_return_parta.zip",
+      "zip_sha256": "2fc9754c1976d0ace67e723a51c7df5b925cac35d99c9c1bbc652faaf221072f",
+      "zip_bytes": 27775428,
+      "extracted": [
+        "publicextract.charity_annual_return_parta.json"
+      ]
+    },
+    {
+      "table": "publicextract.charity_annual_return_partb",
+      "url": "https://ccewuksprdoneregsadata1.blob.core.windows.net/data/json/publicextract.charity_annual_return_partb.zip",
+      "zip_sha256": "4a62b807d10b8006b82721da4aedd680218d3d205106a1ee63c438970562dbef",
+      "zip_bytes": 12040371,
+      "extracted": [
+        "publicextract.charity_annual_return_partb.json"
+      ]
+    },
+    {
+      "table": "publicextract.charity_governing_document",
+      "url": "https://ccewuksprdoneregsadata1.blob.core.windows.net/data/json/publicextract.charity_governing_document.zip",
+      "zip_sha256": "ff7b2fdff720481a3e238a05915ba89d3fadb3fe74dfd5b76d4236c047290173",
+      "zip_bytes": 41616944,
+      "extracted": [
+        "publicextract.charity_governing_document.json"
+      ]
+    },
+    {
+      "table": "publicextract.charity_classification",
+      "url": "https://ccewuksprdoneregsadata1.blob.core.windows.net/data/json/publicextract.charity_classification.zip",
+      "zip_sha256": "eaa41cbde0a8c1ce15a11bc724f5384e8ef8509710b466a1bf40888bf457ec60",
+      "zip_bytes": 10498384,
+      "extracted": [
+        "publicextract.charity_classification.json"
+      ]
+    }
+  ]
+}

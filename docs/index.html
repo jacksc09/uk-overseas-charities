@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UK overseas charities map</title>
+
+<!-- Leaflet (map library) and its marker-clustering plugin, from a CDN.
+     Clustering is essential: the full dataset has ~19,000 points and a
+     browser cannot render that many individual markers smoothly. -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<style>
+  html, body { margin: 0; height: 100%; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  body { display: flex; flex-direction: column; }
+
+  header {
+    padding: 10px 16px; background: #fff; border-bottom: 1px solid #ddd;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  }
+  header h1 { font-size: 17px; margin: 0; font-weight: 600; }
+  header .count { color: #555; font-size: 13px; }
+  header label { font-size: 13px; color: #333; }
+  header select { font-size: 13px; padding: 3px 6px; max-width: 240px; }
+
+  #banner {
+    display: none; background: #fff3cd; color: #664d03; font-size: 13px;
+    padding: 6px 16px; border-bottom: 1px solid #ffe69c;
+  }
+
+  #map { flex: 1; }
+
+  /* The legend sits on top of the map, bottom-left */
+  .legend {
+    background: rgba(255,255,255,0.95); border: 1px solid #ccc; border-radius: 6px;
+    padding: 8px 10px; font-size: 11px; line-height: 1.5; max-height: 46vh;
+    overflow-y: auto; box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .legend .dot {
+    display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+    margin-right: 5px; vertical-align: -1px; border: 1px solid rgba(0,0,0,0.15);
+  }
+
+  .cluster-icon {
+    background: rgba(60,60,60,0.85); color: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .popup-name { font-weight: 600; margin-bottom: 4px; }
+  .popup-badge {
+    display: inline-block; color: #fff; border-radius: 4px; padding: 1px 7px;
+    font-size: 11px; font-weight: 600; margin: 2px 4px 2px 0;
+  }
+  .popup-meta { color: #555; font-size: 11px; margin-top: 4px; }
+
+  footer {
+    padding: 6px 16px; background: #fafafa; border-top: 1px solid #ddd;
+    font-size: 10.5px; color: #666; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>UK overseas charities</h1>
+  <span class="count" id="count">loading&hellip;</span>
+  <label>Goal:
+    <select id="sdgFilter"><option value="">All SDGs</option></select>
+  </label>
+  <label>Engagement:
+    <select id="engFilter">
+      <option value="">All</option>
+      <option value="operates_directly_abroad">Operates directly abroad</option>
+      <option value="funds_partners_abroad">Funds partners abroad</option>
+      <option value="uk_fundraising_only">UK fundraising only</option>
+    </select>
+  </label>
+</header>
+
+<div id="banner"></div>
+<div id="map"></div>
+
+<footer>
+  Pins show each charity's <strong>registered head office</strong>, not where it works
+  &middot; classification by a large language model from register text, provisional until validated
+  &middot; Contains public sector information licensed under the
+  <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>
+  (data: Charity Commission for England and Wales, snapshot <span id="snapshot">&hellip;</span>)
+  &middot; Geocoding: postcodes.io &mdash; contains OS data &copy; Crown copyright and database right 2026.
+</footer>
+
+<script>
+// Official UN colour for each of the 17 Sustainable Development Goals.
+const SDG_COLORS = {
+  1:"#E5243B", 2:"#DDA63A", 3:"#4C9F38", 4:"#C5192D", 5:"#FF3A21", 6:"#26BDE2",
+  7:"#FCC30B", 8:"#A21942", 9:"#FD6925", 10:"#DD1367", 11:"#FD9D24", 12:"#BF8B2E",
+  13:"#3F7E44", 14:"#0A97D9", 15:"#56C02B", 16:"#00689D", 17:"#19486A",
+};
+const ENGAGEMENT_LABELS = {
+  operates_directly_abroad: "Operates directly abroad",
+  funds_partners_abroad: "Funds partners abroad",
+  uk_fundraising_only: "UK fundraising only",
+};
+
+const map = L.map("map").setView([53.0, -1.5], 6);
+L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  maxZoom: 19,
+}).addTo(map);
+
+// chunkedLoading keeps the page responsive while thousands of markers load.
+const clusterGroup = L.markerClusterGroup({
+  chunkedLoading: true,
+  maxClusterRadius: 55,
+  iconCreateFunction: (cluster) => {
+    const n = cluster.getChildCount();
+    const size = n < 100 ? 32 : n < 1000 ? 38 : 46;
+    return L.divIcon({
+      html: `<div class="cluster-icon" style="width:${size}px;height:${size}px">${n.toLocaleString()}</div>`,
+      className: "", iconSize: [size, size],
+    });
+  },
+});
+map.addLayer(clusterGroup);
+
+let allFeatures = [];
+
+function makeMarker(feature) {
+  const p = feature.properties;
+  const [lon, lat] = feature.geometry.coordinates;
+  const marker = L.circleMarker([lat, lon], {
+    radius: 6,
+    fillColor: SDG_COLORS[p.sdg] || "#888",
+    fillOpacity: 0.85,
+    color: "#fff",       // white ring so touching dots stay distinct
+    weight: 1.5,
+  });
+  const registerUrl =
+    `https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/${p.orgno}`;
+  marker.bindPopup(`
+    <div class="popup-name">${p.name}</div>
+    <span class="popup-badge" style="background:${SDG_COLORS[p.sdg]}">SDG ${p.sdg} &middot; ${p.sdg_title}</span>
+    <span class="popup-badge" style="background:#555">${ENGAGEMENT_LABELS[p.engagement] || p.engagement}</span>
+    <div>${p.summary}</div>
+    <div class="popup-meta">
+      Confidence: SDG ${p.sdg_conf}, engagement ${p.eng_conf}<br>
+      <a href="${registerUrl}" target="_blank" rel="noopener">Charity ${p.regno} on the register &#8599;</a>
+    </div>`);
+  return marker;
+}
+
+function applyFilters() {
+  const sdg = document.getElementById("sdgFilter").value;
+  const eng = document.getElementById("engFilter").value;
+  const shown = allFeatures.filter((f) =>
+    (!sdg || f.properties.sdg === Number(sdg)) &&
+    (!eng || f.properties.engagement === eng)
+  );
+  clusterGroup.clearLayers();
+  clusterGroup.addLayers(shown.map(makeMarker));
+  document.getElementById("count").textContent =
+    `showing ${shown.length.toLocaleString()} of ${allFeatures.length.toLocaleString()} mapped charities`;
+}
+
+fetch("charities.geojson")
+  .then((r) => {
+    if (!r.ok) throw new Error(`charities.geojson missing (HTTP ${r.status})`);
+    return r.json();
+  })
+  .then((data) => {
+    allFeatures = data.features;
+    document.getElementById("snapshot").textContent = data.meta?.snapshot || "unknown";
+
+    if (data.meta?.preview) {
+      const banner = document.getElementById("banner");
+      banner.style.display = "block";
+      banner.textContent = `Preview — a sample of ${data.meta.count.toLocaleString()} ` +
+        `charities with provisional classifications. The full dataset has not yet been generated.`;
+    }
+
+    // Populate the SDG filter with only the goals present, plus counts.
+    const counts = {};
+    allFeatures.forEach((f) => { counts[f.properties.sdg] = (counts[f.properties.sdg] || 0) + 1; });
+    const sdgSelect = document.getElementById("sdgFilter");
+    Object.keys(counts).map(Number).sort((a, b) => a - b).forEach((n) => {
+      const title = allFeatures.find((f) => f.properties.sdg === n).properties.sdg_title;
+      sdgSelect.add(new Option(`${n} – ${title} (${counts[n]})`, n));
+    });
+
+    // Legend (bottom-left), one row per goal present in the data. It is
+    // collapsible so it doesn't swallow the map on small screens - open by
+    // default only when there's room.
+    const legend = L.control({ position: "bottomleft" });
+    legend.onAdd = () => {
+      const div = L.DomUtil.create("div", "legend");
+      const rows = Object.keys(counts).map(Number).sort((a, b) => a - b).map((n) => {
+        const title = allFeatures.find((f) => f.properties.sdg === n).properties.sdg_title;
+        return `<span class="dot" style="background:${SDG_COLORS[n]}"></span>${n} ${title}`;
+      }).join("<br>");
+      const open = window.innerWidth > 900 ? " open" : "";
+      div.innerHTML = `<details${open}><summary><strong>Primary SDG</strong></summary>${rows}</details>`;
+      // stop clicks on the legend from also dragging/zooming the map
+      L.DomEvent.disableClickPropagation(div);
+      return div;
+    };
+    legend.addTo(map);
+
+    document.getElementById("sdgFilter").addEventListener("change", applyFilters);
+    document.getElementById("engFilter").addEventListener("change", applyFilters);
+    applyFilters();
+  })
+  .catch((err) => {
+    document.getElementById("count").textContent = err.message;
+  });
+</script>
+</body>
+</html>

@@ -11,6 +11,14 @@ data/raw/*
 __pycache__/
 *.pyc
 
+# Generated map data - un-ignore this once the full tagged dataset exists
+# (until then it holds a labelled preview sample that stays local)
+docs/charities.geojson
+outputs/sample_tags_preview.csv
+
+# Local editor/tooling config (contains machine-specific paths)
+.claude/
+
 # Private planning notes
 PLAN.md
 

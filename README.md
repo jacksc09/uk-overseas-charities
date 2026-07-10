@@ -8,9 +8,11 @@ engagement flag).
 
 **Status: work in progress.** Data spine complete: 19,688 active
 internationally operating charities identified from the 2026-07-09 register
-snapshot, 95.8% geocoded (2.3% missing postcode, 1.9% unmatched). The
-classification pipeline is built and smoke-tested; the full tagging run is
-pending.
+snapshot, 95.8% geocoded (2.3% missing postcode, 1.9% unmatched). The full
+classification run is complete (100% coverage, all 19,688 charities tagged);
+accuracy against a hand-labelled sample will be reported before the dataset
+is considered final, and all tags should be treated as provisional until
+then.
 
 ## What this repo does
 
@@ -22,16 +24,23 @@ pending.
 4. **Geocode** head-office postcodes via the free
    [postcodes.io](https://postcodes.io) bulk API.
 5. **Classify** every charity with a large language model (Claude Haiku 4.5,
-   via the batch API, constrained to a JSON schema): the most relevant UN
-   Sustainable Development Goal, up to two secondary goals, a one-line focus
-   summary, and a three-way flag for how the charity engages overseas
-   (operates directly abroad / funds partners abroad / UK fundraising only).
+   named here once for reproducibility): the most relevant UN Sustainable
+   Development Goal, up to two secondary goals, a one-line focus summary, and
+   a three-way flag for how the charity engages overseas (operates directly
+   abroad / funds partners abroad / UK fundraising only).
    Classification uses only each charity's own register text (name,
    activities, charitable objects) so it stays independent of the register's
    structured area-of-operation fields, which are held back for
-   cross-validation. Malformed or refused responses are retried and, if
-   necessary, escalated to a stronger model. Accuracy against a hand-labelled
-   sample will be reported before the dataset is final.
+   cross-validation. The pipeline supports two transports with an identical
+   prompt: the Batch API (with schema-enforced output) or interactive
+   sessions over small chunk files. This dataset's tags come from the
+   interactive route; every response was validated against the same JSON
+   schema afterwards, and malformed or missing responses were re-queued
+   until coverage reached 100%. Sampling temperature was not fixed on the
+   interactive route, so an identical re-run may differ slightly on
+   borderline cases — a documented reproducibility limitation. Accuracy
+   against a hand-labelled sample will be reported before the dataset is
+   final.
 
 Note on interpretation: the map/geocode shows each charity's **head-office
 location**, not where it works. For many small charities the registered
@@ -51,6 +60,8 @@ src/               Pipeline scripts, run in order:
   classify_prompt.py prompt, examples, and output schema (shared)
   smoke_test.py      20-charity prompt check (payloads free; --live hits API)
   tag_batch.py       submit / poll / fetch the full batch tagging run
+  chunk_manual.py    split charities into chunk files for interactive tagging
+  check_manual_run.py  validate chunk outputs, re-queue failures, merge
   parse_validate.py  schema-check every response, retry + escalate failures
   assemble.py        join tags + geocodes into the final CSV and GeoJSON
 outputs/           Smoke-test artefacts, figures, maps
@@ -71,14 +82,35 @@ python src/filter_international.py
 python src/geocode.py
 ```
 
-Stage 2 - classification (needs `ANTHROPIC_API_KEY` in `.env` with API
-credits; the full run costs roughly $15-31 at current batch prices):
+Stage 2 - classification. Route A uses the Batch API (needs
+`ANTHROPIC_API_KEY` in `.env` with API credits; the full run costs roughly
+$15-31 at current batch prices):
 
 ```bash
 python src/smoke_test.py --live   # 20-charity sanity check (pennies)
 python src/tag_batch.py submit    # submit the full batch
 python src/tag_batch.py status    # ...until it reports "ended" (~1 hour)
 python src/tag_batch.py fetch     # download raw responses
+```
+
+Route B (the one this dataset used) runs the same prompt interactively, with
+no API key: `chunk_manual.py` splits the charities into ~355 self-contained
+chunk files, each chunk is classified in a supervised model session, and
+`check_manual_run.py` validates every output line, re-queues failures with
+`--make-retry`, and finally writes the same raw-responses file with
+`--merge`:
+
+```bash
+python src/chunk_manual.py           # write chunk files + index
+# ...classify each data/raw/manual_chunks/chunk_*.md in a model session...
+python src/check_manual_run.py            # progress + validity report
+python src/check_manual_run.py --make-retry  # re-queue failures (if any)
+python src/check_manual_run.py --merge    # -> data/raw/llm_responses.jsonl
+```
+
+Either route ends the same way:
+
+```bash
 python src/parse_validate.py      # validate, retry, escalate
 python src/assemble.py            # final CSV + GeoJSON
 ```

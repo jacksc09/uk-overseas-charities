@@ -4,3 +4,4 @@ tenacity
 python-dotenv
 anthropic
 jsonschema
+openpyxl

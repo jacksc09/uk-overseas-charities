@@ -11,10 +11,12 @@ data/raw/*
 __pycache__/
 *.pyc
 
-# Generated map data - un-ignore this once the full tagged dataset exists
-# (until then it holds a labelled preview sample that stays local)
-docs/charities.geojson
+# The 300-charity preview sample stays local; the real dataset is committed
 outputs/sample_tags_preview.csv
+
+# Labelling working files (save journal + safety backup made by label_ui.py)
+outputs/validation/*.journal.jsonl
+outputs/validation/*.startup-backup.xlsx
 
 # Local editor/tooling config (contains machine-specific paths)
 .claude/

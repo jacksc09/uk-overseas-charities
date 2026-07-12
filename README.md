@@ -6,13 +6,12 @@ geocoded to their head-office postcodes, and prepared for thematic
 classification (UN Sustainable Development Goals plus a three-way overseas
 engagement flag).
 
-**Status: work in progress.** Data spine complete: 19,688 active
-internationally operating charities identified from the 2026-07-09 register
-snapshot, 95.8% geocoded (2.3% missing postcode, 1.9% unmatched). The full
-classification run is complete (100% coverage, all 19,688 charities tagged);
-accuracy against a hand-labelled sample will be reported before the dataset
-is considered final, and all tags should be treated as provisional until
-then.
+**Status: complete and validated.** 19,688 active internationally operating
+charities identified from the 2026-07-09 register snapshot, 95.8% geocoded
+(2.3% missing postcode, 1.9% unmatched), 100% classified, and validated
+against a blind hand-labelled sample of 150 charities: **77.3% primary-SDG
+accuracy** (95% CI 70.0–83.3%) and 65.3% overseas-engagement accuracy
+(95% CI 57.4–72.5%), with per-class detail in [Validation](#validation).
 
 ## What this repo does
 
@@ -39,8 +38,8 @@ then.
    until coverage reached 100%. Sampling temperature was not fixed on the
    interactive route, so an identical re-run may differ slightly on
    borderline cases — a documented reproducibility limitation. Accuracy
-   against a hand-labelled sample will be reported before the dataset is
-   final.
+   against a blind hand-labelled sample is reported under
+   [Validation](#validation).
 
 Note on interpretation: the map/geocode shows each charity's **head-office
 location**, not where it works. For many small charities the registered
@@ -64,8 +63,15 @@ src/               Pipeline scripts, run in order:
   check_manual_run.py  validate chunk outputs, re-queue failures, merge
   parse_validate.py  schema-check every response, retry + escalate failures
   assemble.py        join tags + geocodes into the final CSV and GeoJSON
-outputs/           Smoke-test artefacts, figures, maps
+  make_validation_sample.py  draw the blind stratified hand-validation sample
+  score_validation.py        score the hand labels against the model's tags
+  cross_validate.py          compare the engagement flag with register fields
+outputs/           Smoke-test artefacts and validation results
+docs/              The interactive map (Leaflet, one static page)
 ```
+
+The method, validation protocol, and limitations are written up in
+[METHODS.md](METHODS.md).
 
 ## How to run
 
@@ -150,6 +156,90 @@ row per main registered charity:
 
 `data/processed/charities.geojson` carries the geocoded, tagged subset as
 Point features (name, number, primary SDG, engagement, summary) for mapping.
+
+## Validation
+
+All tags are machine-generated; two checks are reported so they can be
+read with the right amount of trust. The full protocol is in
+[METHODS.md](METHODS.md).
+
+### Hand-labelled accuracy
+
+A stratified 150-charity sample (seed 20260710, drawn and frozen — protocol,
+strata and adjudication rules included — *before* labelling began) was
+hand-labelled blind by the author on 2026-07-12, from exactly the text the
+model saw. Full output in
+[outputs/validation/validation_results.md](outputs/validation/validation_results.md);
+protocol in [METHODS.md](METHODS.md).
+
+**Primary SDG** (n=150; population-weighted figures undo the sample design's
+oversampling of small strata and are almost identical):
+
+| Reading | Accuracy | 95% CI |
+|---|---|---|
+| strict — model primary = hand label | **77.3%** | 70.0–83.3% |
+| dual — or = the recorded equally-correct alternative | 78.7% | 71.4–84.5% |
+| loose — hand label anywhere in model primary + secondaries | 94.0% | 89.0–96.8% |
+
+For context, the closest published benchmark for automated whole-register
+UK charity classification is UK-CAT's machine-learning classifier at 56%
+accuracy — on a different taxonomy (ICNP/TSO), so the comparison is
+indicative rather than exact.
+
+**Overseas engagement**: 65.3% overall (95% CI 57.4–72.5%). Per-class, with
+hand labels as truth:
+
+| Class | Precision | Recall | F1 |
+|---|---|---|---|
+| operates_directly_abroad | 50.9% | 80.6% | 0.62 |
+| funds_partners_abroad | 59.6% | 57.4% | 0.58 |
+| uk_fundraising_only | 92.7% | 63.3% | 0.75 |
+
+The errors have a clear direction: the model **over-calls overseas
+activity**. When it says `uk_fundraising_only` it is almost always right
+(92.7% precision), but it takes a third of the charities the labeller
+called UK-only and promotes them to an overseas-active class, and it
+often reads grant-funding relationships as direct operation (21 of 54
+hand-labelled `funds_partners_abroad` charities were tagged
+`operates_directly_abroad`). Treat the direct/partners boundary as soft;
+treat a `uk_fundraising_only` tag as a reliable negative signal.
+
+The model's confidence flags carry real signal for the SDG tags (strict
+accuracy 81.2% where it said "high" vs 56.7% at "medium") with one caveat:
+the apparently strong low-confidence figure (87.5%, n=24) mostly reflects
+sparse-text rows where the pre-registered default rule (SDG 1 when no
+concrete detail exists) applies to labeller and model alike, so agreement
+there measures a shared convention rather than rich evidence.
+
+### Cross-validation against register classification codes
+
+The classifier's input was each charity's name, activities, and objects
+text only — the register's structured fields were deliberately withheld —
+so the register's self-reported classification tick-boxes give an
+independent, if noisy, cross-check. Neither side is ground truth: this is
+agreement between two imperfect signals, not a measure of accuracy. Full
+tables are in
+[outputs/validation/cross_validation.md](outputs/validation/cross_validation.md).
+
+- **"Overseas Aid/Famine Relief" tick-box vs the model's overseas-active
+  classes.** Where a charity ticked the box (n=4,869), the model calls it
+  overseas-active (operating directly or funding partners) **82.3%** of the
+  time. Agreement across all 19,688 charities is low (43.1%, Cohen's
+  κ = 0.08) because the box is narrow — aid and famine relief specifically —
+  while the engagement flag covers any overseas work, so many charities the
+  model calls overseas-active never ticked it.
+- **"Makes Grants To Organisations" tick-box vs `funds_partners_abroad`.**
+  **67.7%** of charities the model calls `funds_partners_abroad` ticked the
+  grant-making box, against 42.0% of `operates_directly_abroad` and 44.3%
+  of `uk_fundraising_only` (raw agreement 60.6%, κ = 0.22) — the ordering
+  the flag predicts.
+- **A known failure direction, reported rather than hidden:** charities the
+  model flags `uk_fundraising_only` list *more* overseas countries in the
+  register than the overseas-active classes (median 2 vs 1). This is the
+  documented fallback pattern: the register's international population
+  includes large UK-domestic charities whose entries list many countries
+  but whose own text describes no overseas operations, and the
+  text-only classifier files them under `uk_fundraising_only`.
 
 ## Licence and attribution
 

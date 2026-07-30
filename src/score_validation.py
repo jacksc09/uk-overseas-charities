@@ -2,10 +2,14 @@
 
 Reads the filled-in labelling sheet (outputs/validation/labelling_sheet.xlsx)
 and the matching answer key (sample_key.csv), and reports the pre-registered
-accuracy metrics. The hand labels are the ground truth throughout - where
-they disagree, the model is wrong, not the labeller.
+accuracy metrics. The hand labels are the scoring standard throughout -
+where the model disagrees it is counted wrong. They are one careful blind
+coder's judgment, though, not objective ground truth: "accuracy" here means
+agreement with that coder, and folds ordinary human disagreement on a
+17-class taxonomy into the reported error.
 
-Metrics (adjudication rules fixed before labelling started):
+Metrics (adjudication rules fixed before labelling started, except where
+marked post hoc):
 
 - Primary SDG, three readings:
     strict  - model's primary goal equals the hand label
@@ -14,7 +18,10 @@ Metrics (adjudication rules fixed before labelling started):
     loose   - the hand label appears anywhere in the model's primary +
               secondary goals
 - Overseas engagement: overall accuracy, a 3x3 confusion matrix, and
-  per-class precision/recall/F1 (the interesting failure modes live here).
+  per-class precision/recall/F1 (the interesting failure modes live here),
+  plus a collapsed binary reading (overseas-active vs uk_fundraising_only)
+  added post hoc on 2026-07-30: a pure merge of two classes over the
+  frozen labels, no new judgment calls.
 - Every headline number gets a Wilson 95% confidence interval, and a
   population-weighted estimate that undoes the sample design's deliberate
   oversampling of small strata (weights come from the key file).
@@ -44,6 +51,10 @@ ENGAGEMENT_CLASSES = [
     "funds_partners_abroad",
     "uk_fundraising_only",
 ]
+
+# The two classes that mean real overseas activity. Merging them gives the
+# binary reading cross_validate.py already uses ("overseas-active").
+OVERSEAS_ACTIVE = ["operates_directly_abroad", "funds_partners_abroad"]
 
 
 def wilson_ci(successes: int, n: int, z: float = 1.96) -> tuple:
@@ -169,6 +180,41 @@ def main() -> None:
         tp = matrix.loc[cls, cls]
         pred = matrix[cls].sum()      # model said cls
         truth = matrix.loc[cls].sum()  # labeller said cls
+        prec = tp / pred if pred else 0.0
+        rec = tp / truth if truth else 0.0
+        f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+        lines.append(f"{cls:<26} precision {prec:.1%}  recall {rec:.1%}  "
+                     f"F1 {f1:.2f}  (n={truth})")
+    lines.append("```")
+
+    # --- collapsed binary reading (post hoc) ------------------------------
+    # The direct/partners boundary is the softest part of the flag, so also
+    # score the collapse users are told to make: overseas-active (either
+    # active class) vs uk_fundraising_only. Added 2026-07-30, after
+    # labelling - a pure merge of the frozen labels, no new judgment calls.
+    my_active = df["my_engagement"].isin(OVERSEAS_ACTIVE)
+    model_active = df["model_overseas_engagement"].isin(OVERSEAS_ACTIVE)
+    bin_ok = my_active == model_active
+    lines += ["", "Collapsed binary (overseas-active = "
+              "operates_directly_abroad + funds_partners_abroad; "
+              "added post hoc):", "```"]
+    lines.append(fmt_acc(bin_ok, w, "binary"))
+    lines.append("```")
+
+    bin_names = {True: "overseas_active", False: "uk_fundraising_only"}
+    bin_classes = ["overseas_active", "uk_fundraising_only"]
+    bin_matrix = pd.crosstab(my_active.map(bin_names),
+                             model_active.map(bin_names)
+                             ).reindex(index=bin_classes,
+                                       columns=bin_classes, fill_value=0)
+    lines += ["", "Binary confusion matrix (rows = hand label, cols = model):",
+              "```", bin_matrix.to_string(), "```"]
+
+    lines += ["", "Binary per-class metrics (hand labels as truth):", "```"]
+    for cls in bin_classes:
+        tp = bin_matrix.loc[cls, cls]
+        pred = bin_matrix[cls].sum()      # model said cls
+        truth = bin_matrix.loc[cls].sum()  # labeller said cls
         prec = tp / pred if pred else 0.0
         rec = tp / truth if truth else 0.0
         f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0

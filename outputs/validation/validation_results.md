@@ -33,6 +33,25 @@ funds_partners_abroad      precision 59.6%  recall 57.4%  F1 0.58  (n=54)
 uk_fundraising_only        precision 92.7%  recall 63.3%  F1 0.75  (n=60)
 ```
 
+Collapsed binary (overseas-active = operates_directly_abroad + funds_partners_abroad; added post hoc):
+```
+binary   125/150 = 83.3%  (95% CI 76.6%-88.4%)  | population-weighted 85.2% (~CI 79.0%-90.4%)
+```
+
+Binary confusion matrix (rows = hand label, cols = model):
+```
+model_overseas_engagement  overseas_active  uk_fundraising_only
+my_engagement                                                  
+overseas_active                         87                    3
+uk_fundraising_only                     22                   38
+```
+
+Binary per-class metrics (hand labels as truth):
+```
+overseas_active            precision 79.8%  recall 96.7%  F1 0.87  (n=90)
+uk_fundraising_only        precision 92.7%  recall 63.3%  F1 0.75  (n=60)
+```
+
 By the model's own engagement confidence:
 ```
 high    71/101 = 70.3%  (95% CI 60.8%-78.3%)

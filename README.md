@@ -11,7 +11,8 @@ charities identified from the 2026-07-09 register snapshot, 95.8% geocoded
 (2.3% missing postcode, 1.9% unmatched), 100% classified, and validated
 against a blind hand-labelled sample of 150 charities: **77.3% primary-SDG
 accuracy** (95% CI 70.0–83.3%) and 65.3% overseas-engagement accuracy
-(95% CI 57.4–72.5%), with per-class detail in [Validation](#validation).
+(95% CI 57.4–72.5%) — 83.3% (125/150) once the two overseas-active classes
+are merged — with per-class detail in [Validation](#validation).
 
 ## What this repo does
 
@@ -27,6 +28,11 @@ accuracy** (95% CI 70.0–83.3%) and 65.3% overseas-engagement accuracy
    Development Goal, up to two secondary goals, a one-line focus summary, and
    a three-way flag for how the charity engages overseas (operates directly
    abroad / funds partners abroad / UK fundraising only).
+   The SDG and the engagement flag are deliberately two separate taxonomies:
+   one says *what* a charity works on, the other *how* its money or activity
+   reaches another country, so a single code never has to trade subject
+   against geography (the classic failure of schemes that fold an
+   "international" category into the activity taxonomy).
    Classification uses only each charity's own register text (name,
    activities, charitable objects) so it stays independent of the register's
    structured area-of-operation fields, which are held back for
@@ -168,7 +174,11 @@ read with the right amount of trust. The full protocol is in
 A stratified 150-charity sample (seed 20260710, drawn and frozen — protocol,
 strata and adjudication rules included — *before* labelling began) was
 hand-labelled blind by the author on 2026-07-12, from exactly the text the
-model saw. Full output in
+model saw. Accuracy throughout means agreement with that single careful
+blind coder — a defensible benchmark, but a measure of deviation from one
+human's judgment rather than from objective ground truth, so the reported
+error folds in ordinary human disagreement on a 17-class taxonomy as well
+as genuine model mistakes. Full output in
 [outputs/validation/validation_results.md](outputs/validation/validation_results.md);
 protocol in [METHODS.md](METHODS.md).
 
@@ -180,6 +190,11 @@ oversampling of small strata and are almost identical):
 | strict — model primary = hand label | **77.3%** | 70.0–83.3% |
 | dual — or = the recorded equally-correct alternative | 78.7% | 71.4–84.5% |
 | loose — hand label anywhere in model primary + secondaries | 94.0% | 89.0–96.8% |
+
+The gap between strict and loose follows a general pattern in LLM
+classification — models are much better at getting the right category into
+a short list than at ranking it first — so users who only need the right
+goal to *appear* in a charity's tags should read the 94.0% loose figure.
 
 For context, the closest published benchmark for automated whole-register
 UK charity classification is UK-CAT's machine-learning classifier at 56%
@@ -203,6 +218,14 @@ often reads grant-funding relationships as direct operation (21 of 54
 hand-labelled `funds_partners_abroad` charities were tagged
 `operates_directly_abroad`). Treat the direct/partners boundary as soft;
 treat a `uk_fundraising_only` tag as a reliable negative signal.
+
+Where the direct/partners distinction does not matter, collapse the two
+overseas-active classes into one. Scored that way — a post-hoc reading,
+computed by the same scorer over the frozen labels — the binary flag
+(overseas-active vs `uk_fundraising_only`) is right **83.3%** of the time
+(125/150; 95% CI 76.6–88.4%; population-weighted 85.2%), catches 96.7% of
+overseas-active charities, and keeps `uk_fundraising_only`'s 92.7%
+precision.
 
 The model's confidence flags carry real signal for the SDG tags (strict
 accuracy 81.2% where it said "high" vs 56.7% at "medium") with one caveat:

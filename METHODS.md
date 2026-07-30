@@ -44,6 +44,12 @@ named here once for reproducibility) in a single call combining all tags.
   engagement flag (`operates_directly_abroad` / `funds_partners_abroad` /
   `uk_fundraising_only`), and a high/medium/low confidence rating for both
   the SDG call and the engagement call.
+- **Two taxonomies by design:** the SDG describes activity, the engagement
+  flag describes mechanism — how money or work reaches another country.
+  They are kept as separate codes precisely so neither has to stand in for
+  the other; schemes that fold geography into the activity taxonomy (the
+  NTEE's "International" group is the standard example) end up recording
+  where a charity works as if it said what the charity does.
 - **Coverage and repair:** every response was validated against the JSON
   schema after the fact; malformed or missing responses were re-queued and
   re-run until coverage reached 100% of the 19,688 charities, all tagged by
@@ -83,7 +89,11 @@ the numbers.
   pre-declared readings — *strict* (model primary = hand label), *dual*
   (or = the recorded alternative), *loose* (hand label anywhere in the
   model's primary + secondaries) — plus engagement accuracy with a full
-  confusion matrix and per-class precision/recall/F1. Every headline number
+  confusion matrix and per-class precision/recall/F1, and a collapsed
+  binary engagement reading (overseas-active, i.e. direct + partners, vs
+  `uk_fundraising_only`) added post hoc on external methodological advice:
+  a pure merge of two existing classes over the frozen labels, involving
+  no new judgment calls. Every headline number
   gets a Wilson 95% confidence interval and a population-weighted estimate
   (Kish effective sample size), and accuracy is split by the model's own
   confidence flags to test whether they mean anything.
@@ -91,11 +101,17 @@ the numbers.
 **Results** (labelled 2026-07-12; full report in
 `outputs/validation/validation_results.md`): strict primary-SDG accuracy
 **77.3%** (116/150, 95% CI 70.0–83.3%; population-weighted 77.4%), dual
-78.7%, loose 94.0%. Overseas engagement 65.3% overall (95% CI 57.4–72.5%;
+78.7%, loose 94.0%. The strict-to-loose gap is typical of LLM classifiers,
+which are far better at putting the right category in a short list than at
+ranking it first; users who only need the right goal to appear should read
+the loose figure. Overseas engagement 65.3% overall (95% CI 57.4–72.5%;
 population-weighted 66.6%), with a consistent error direction: the model
 over-calls overseas activity. `uk_fundraising_only` has 92.7% precision but
 63.3% recall, and the commonest single confusion is hand-labelled
-`funds_partners_abroad` tagged as `operates_directly_abroad` (21/54). The
+`funds_partners_abroad` tagged as `operates_directly_abroad` (21/54).
+Collapsed post hoc to the binary reading, the flag scores **83.3%**
+(125/150, 95% CI 76.6–88.4%; population-weighted 85.2%), with 96.7% recall
+on overseas-active charities. The
 model's SDG confidence flag is informative (strict accuracy 81.2% at
 "high" vs 56.7% at "medium"); the low-confidence band's 87.5% agreement
 (n=24) largely reflects the shared sparse-text default rule (SDG 1 when no
@@ -128,6 +144,11 @@ between two imperfect signals, not as accuracy.
 5. Tags from this run are not perfectly reproducible (temperature was not
    fixed); the prompt, code, sample, and key are all published so the
    validation itself is fully reproducible.
+6. There was a single hand-labeller. Accuracy therefore means agreement
+   with one careful blind coder working under pre-registered rules — a
+   defensible benchmark, but a measure of deviation from human judgment,
+   not from objective ground truth, and it folds ordinary human
+   disagreement on a 17-class taxonomy into the reported model error.
 
 ## Licence and attribution
 

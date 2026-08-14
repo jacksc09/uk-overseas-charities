@@ -152,6 +152,9 @@ row per main registered charity:
 | `overseas_countries` | register | Semicolon-joined list of those countries |
 | `latitude` / `longitude` / `admin_district` | postcodes.io | HQ postcode geocode |
 | `geocode_status` | derived | `ok` / `missing_postcode` / `unmatched` |
+| `website` | register (cleaned) | Contact website as a usable URL (junk removed, `https://` added when missing) |
+| `email` | register (cleaned) | Contact email, lowercased; invalid values dropped |
+| `phone` | register (cleaned) | Contact phone as given; obvious placeholders dropped |
 | `primary_sdg` (1–17) / `primary_sdg_title` | model | Most relevant UN Sustainable Development Goal |
 | `secondary_sdgs` | model | Up to two further goals (semicolon-joined) |
 | `focus_summary` | model | One-line plain-English focus |
@@ -160,8 +163,17 @@ row per main registered charity:
 | `engagement_confidence` | model | high / medium / low |
 | `tag_model` | derived | Which model produced the tags for this row |
 
+The three contact columns come from the register's contact fields, lightly
+cleaned so they are directly usable: placeholder values ("no.website",
+"none", "--"), mistyped schemes (`htpp://`), emails or postal addresses
+typed into the website box, and invalid emails are dropped or repaired,
+and bare domains get an `https://` prefix. The register-verbatim values
+are preserved in `data/processed/international.csv`. Coverage: website
+65%, email 89%, phone 99%.
+
 `data/processed/charities.geojson` carries the geocoded, tagged subset as
-Point features (name, number, primary SDG, engagement, summary) for mapping.
+Point features (name, number, primary SDG, engagement, summary, contact
+details where available, and the overseas-countries list) for mapping.
 
 ## Validation
 

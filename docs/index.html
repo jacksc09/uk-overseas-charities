@@ -25,6 +25,9 @@
   header .count { color: #555; font-size: 13px; }
   header label { font-size: 13px; color: #333; }
   header select { font-size: 13px; padding: 3px 6px; max-width: 240px; }
+  header input, header button { font-size: 13px; padding: 3px 6px; }
+  header button { cursor: pointer; }
+  header .status { font-size: 12px; color: #777; }
 
   #banner {
     display: none; background: #fff3cd; color: #664d03; font-size: 13px;
@@ -56,6 +59,7 @@
     display: inline-block; color: #fff; border-radius: 4px; padding: 1px 7px;
     font-size: 11px; font-weight: 600; margin: 2px 4px 2px 0;
   }
+  .popup-contact { font-size: 12px; margin-top: 4px; }
   .popup-meta { color: #555; font-size: 11px; margin-top: 4px; }
 
   footer {
@@ -80,6 +84,18 @@
       <option value="uk_fundraising_only">UK fundraising only</option>
     </select>
   </label>
+  <label>Country:
+    <select id="countryFilter"><option value="">All countries</option></select>
+  </label>
+  <label>Name:
+    <input id="nameSearch" type="search" placeholder="e.g. water" size="14">
+  </label>
+  <label>Go to:
+    <input id="postcodeBox" placeholder="postcode" size="9">
+  </label>
+  <button id="postcodeGo">Go</button>
+  <button id="nearMe">Near me</button>
+  <span class="status" id="jumpStatus"></span>
 </header>
 
 <div id="banner"></div>
@@ -114,9 +130,11 @@ L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
   maxZoom: 19,
 }).addTo(map);
 
-// chunkedLoading keeps the page responsive while thousands of markers load.
+// Markers are built once up front and added synchronously. Async
+// ("chunked") adding is deliberately OFF: clearLayers() cannot cancel an
+// in-flight chunked add, so quick successive filter changes would leave
+// stale markers on the map.
 const clusterGroup = L.markerClusterGroup({
-  chunkedLoading: true,
   maxClusterRadius: 55,
   iconCreateFunction: (cluster) => {
     const n = cluster.getChildCount();
@@ -131,6 +149,54 @@ map.addLayer(clusterGroup);
 
 let allFeatures = [];
 
+// Escape a value before it goes into popup HTML. The data comes from the
+// public register, but names and contact fields can still contain
+// characters like & or " that would otherwise break the markup.
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
+}
+
+function popupHtml(p) {
+  const registerUrl =
+    `https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/${p.orgno}`;
+  // Pre-filled GitHub issue so anyone can flag a wrong tag or a dead link.
+  const issueUrl = "https://github.com/jacksc09/uk-overseas-charities/issues/new" +
+    "?title=" + encodeURIComponent(`Data problem: ${p.name} (${p.regno})`) +
+    "&body=" + encodeURIComponent(
+      `Charity: ${p.name}\nRegistered number: ${p.regno} (organisation ${p.orgno})\n\n` +
+      "What looks wrong (SDG tag, engagement flag, summary, contact details)?\n\n");
+  // Quick contact line: website / email / phone, skipping whatever the
+  // register doesn't have (the geojson omits empty keys entirely).
+  const contact = [];
+  if (p.web) {
+    contact.push(`<a href="${esc(p.web)}" target="_blank" rel="noopener nofollow">${esc(p.web.replace(/^https?:\/\//, ""))}</a>`);
+  }
+  if (p.email) {
+    contact.push(`<a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`);
+  }
+  if (p.phone) {
+    // tel: links want just digits (and a leading +); show the number as
+    // given. A "(0)" trunk digit after a country code ("+44 (0)20...")
+    // is not dialled internationally, so drop it from the href.
+    let dial = p.phone.replace(/\(0\)/g, "").replace(/[^+\d]/g, "");
+    if (dial.startsWith("+440")) dial = "+44" + dial.slice(4);
+    if (dial) contact.push(`<a href="tel:${esc(dial)}">${esc(p.phone)}</a>`);
+  }
+  return `
+    <div class="popup-name">${esc(p.name)}</div>
+    <span class="popup-badge" style="background:${SDG_COLORS[p.sdg]}">SDG ${p.sdg} &middot; ${esc(p.sdg_title)}</span>
+    <span class="popup-badge" style="background:#555">${esc(ENGAGEMENT_LABELS[p.engagement] || p.engagement)}</span>
+    <div>${esc(p.summary)}</div>
+    ${contact.length ? `<div class="popup-contact">${contact.join(" &middot; ")}</div>` : ""}
+    <div class="popup-meta">
+      Confidence: SDG ${esc(p.sdg_conf)}, engagement ${esc(p.eng_conf)}<br>
+      <a href="${registerUrl}" target="_blank" rel="noopener">Charity ${p.regno} on the register &#8599;</a>
+      &middot; <a href="${esc(issueUrl)}" target="_blank" rel="noopener">Report a problem</a>
+    </div>`;
+}
+
 function makeMarker(feature) {
   const p = feature.properties;
   const [lon, lat] = feature.geometry.coordinates;
@@ -141,29 +207,25 @@ function makeMarker(feature) {
     color: "#fff",       // white ring so touching dots stay distinct
     weight: 1.5,
   });
-  const registerUrl =
-    `https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/${p.orgno}`;
-  marker.bindPopup(`
-    <div class="popup-name">${p.name}</div>
-    <span class="popup-badge" style="background:${SDG_COLORS[p.sdg]}">SDG ${p.sdg} &middot; ${p.sdg_title}</span>
-    <span class="popup-badge" style="background:#555">${ENGAGEMENT_LABELS[p.engagement] || p.engagement}</span>
-    <div>${p.summary}</div>
-    <div class="popup-meta">
-      Confidence: SDG ${p.sdg_conf}, engagement ${p.eng_conf}<br>
-      <a href="${registerUrl}" target="_blank" rel="noopener">Charity ${p.regno} on the register &#8599;</a>
-    </div>`);
+  // Popup HTML is built only when a marker is actually clicked - far
+  // cheaper than building ~19,000 strings up front.
+  marker.bindPopup(() => popupHtml(p));
   return marker;
 }
 
 function applyFilters() {
   const sdg = document.getElementById("sdgFilter").value;
   const eng = document.getElementById("engFilter").value;
+  const country = document.getElementById("countryFilter").value;
+  const q = document.getElementById("nameSearch").value.trim().toLowerCase();
   const shown = allFeatures.filter((f) =>
     (!sdg || f.properties.sdg === Number(sdg)) &&
-    (!eng || f.properties.engagement === eng)
+    (!eng || f.properties.engagement === eng) &&
+    (!country || f._countries.includes(country)) &&
+    (!q || f._nameLower.includes(q))
   );
   clusterGroup.clearLayers();
-  clusterGroup.addLayers(shown.map(makeMarker));
+  clusterGroup.addLayers(shown.map((f) => f._marker));
   document.getElementById("count").textContent =
     `showing ${shown.length.toLocaleString()} of ${allFeatures.length.toLocaleString()} mapped charities`;
 }
@@ -176,6 +238,16 @@ fetch("charities.geojson")
   .then((data) => {
     allFeatures = data.features;
     document.getElementById("snapshot").textContent = data.meta?.snapshot || "unknown";
+
+    // Precompute what filtering needs and build each marker exactly once -
+    // applyFilters then only chooses which existing markers to show,
+    // instead of rebuilding ~19,000 markers on every filter change.
+    allFeatures.forEach((f) => {
+      f._nameLower = f.properties.name.toLowerCase();
+      // Split on "; " only - one country name contains commas.
+      f._countries = f.properties.countries.split("; ");
+      f._marker = makeMarker(f);
+    });
 
     if (data.meta?.preview) {
       const banner = document.getElementById("banner");
@@ -211,13 +283,72 @@ fetch("charities.geojson")
     };
     legend.addTo(map);
 
+    // Populate the country filter with every overseas country in the data.
+    const countryCounts = {};
+    allFeatures.forEach((f) => {
+      f._countries.forEach((c) => { countryCounts[c] = (countryCounts[c] || 0) + 1; });
+    });
+    const countrySelect = document.getElementById("countryFilter");
+    Object.keys(countryCounts).sort().forEach((c) => {
+      countrySelect.add(new Option(`${c} (${countryCounts[c].toLocaleString()})`, c));
+    });
+
     document.getElementById("sdgFilter").addEventListener("change", applyFilters);
     document.getElementById("engFilter").addEventListener("change", applyFilters);
+    document.getElementById("countryFilter").addEventListener("change", applyFilters);
+    // Debounce the search box: filter once per typing pause, not per keystroke.
+    let searchTimer;
+    document.getElementById("nameSearch").addEventListener("input", () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(applyFilters, 250);
+    });
     applyFilters();
   })
   .catch((err) => {
     document.getElementById("count").textContent = err.message;
   });
+
+// --- "Go to" controls: fly the map to a postcode or the user's location ---
+const jumpStatus = document.getElementById("jumpStatus");
+
+function goToPostcode() {
+  const pc = document.getElementById("postcodeBox").value.trim();
+  if (!pc) return;
+  jumpStatus.textContent = "looking up…";
+  // postcodes.io is the same free service the geocoding stage used.
+  fetch("https://api.postcodes.io/postcodes/" + encodeURIComponent(pc))
+    .then((r) => r.json())
+    .then((data) => {
+      if (data.status === 200) {
+        jumpStatus.textContent = "";
+        map.flyTo([data.result.latitude, data.result.longitude], 12);
+      } else {
+        jumpStatus.textContent = "Postcode not found";
+      }
+    })
+    .catch(() => { jumpStatus.textContent = "Lookup failed - check your connection"; });
+}
+
+document.getElementById("postcodeGo").addEventListener("click", goToPostcode);
+document.getElementById("postcodeBox").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") goToPostcode();
+});
+
+document.getElementById("nearMe").addEventListener("click", () => {
+  // Geolocation only works on https or localhost - true for GitHub Pages.
+  if (!navigator.geolocation) {
+    jumpStatus.textContent = "Location not supported by this browser";
+    return;
+  }
+  jumpStatus.textContent = "locating…";
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      jumpStatus.textContent = "";
+      map.flyTo([pos.coords.latitude, pos.coords.longitude], 12);
+    },
+    () => { jumpStatus.textContent = "Location unavailable or permission denied"; },
+  );
+});
 </script>
 </body>
 </html>

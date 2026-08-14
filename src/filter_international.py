@@ -89,6 +89,12 @@ def main() -> None:
         "latest_income",
         "latest_expenditure",
         "charity_contact_postcode",
+        # Contact details, kept exactly as the register gives them (they are
+        # messy - cleaning happens in assemble.py so the raw values stay
+        # auditable here).
+        "charity_contact_web",
+        "charity_contact_email",
+        "charity_contact_phone",
         "charity_activities",
         "charitable_objects",
         "n_overseas_countries",

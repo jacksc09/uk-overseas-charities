@@ -25,6 +25,7 @@ like the finished one).
 import argparse
 import json
 import re
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -37,6 +38,9 @@ DEFAULT_TAGS = REPO_ROOT / "data" / "processed" / "sdg_tags.csv"
 CSV_OUT = REPO_ROOT / "data" / "processed" / "uk_overseas_charities.csv"
 GEOJSON_OUT = REPO_ROOT / "data" / "processed" / "charities.geojson"
 MAP_DATA_OUT = REPO_ROOT / "docs" / "charities.geojson"
+# Written by fetch_iati.py: which charities publish to the IATI aid-
+# transparency registry (keyed by registered_charity_number).
+IATI_PATH = REPO_ROOT / "data" / "processed" / "iati_publishers.csv"
 
 # Contact columns carried verbatim in international.csv; cleaned versions
 # (website/email/phone) are added to the final dataset here.
@@ -166,6 +170,10 @@ def build_geojson(df: pd.DataFrame, preview: bool = False,
             props["email"] = row["email"]
         if pd.notna(row["phone"]):
             props["phone"] = row["phone"]
+        # The map only needs the registry slug, to link to the publisher's
+        # page; the id itself lives in the CSV.
+        if pd.notna(row["iati_publisher_slug"]):
+            props["iati"] = row["iati_publisher_slug"]
         props["countries"] = row["overseas_countries"]  # "; "-joined list
         features.append({
             "type": "Feature",
@@ -242,13 +250,39 @@ def main() -> None:
         ok = geocoded[col].notna().sum()
         print(f"usable {col}: {ok:,} of {len(geocoded):,} ({ok / len(geocoded):.1%})")
 
+    # IATI publisher flag: a post-hoc join, never something the classifier
+    # saw. Stored as the publisher's own organisation id ("GB-CHC-274467")
+    # and left blank when the charity does not publish - a text column, not
+    # a True/False one, so it survives being read back as strings later.
+    if not IATI_PATH.exists():
+        sys.exit(f"{IATI_PATH} not found - run .venv/bin/python src/fetch_iati.py "
+                 "first (it needs no key and takes a few seconds).")
+    # The dataset column is the id (what other datasets join on); the slug
+    # is only needed to build the map's link to the publisher's page.
+    iati = pd.read_csv(IATI_PATH, dtype=str,
+                       usecols=["registered_charity_number", "iati_publisher_id",
+                                "iati_publisher_slug"])
+    geocoded = geocoded.drop(
+        columns=[c for c in ["iati_publisher_id", "iati_publisher_slug"]
+                 if c in geocoded.columns])
+    # The charity number is an int in our table and text in the IATI file:
+    # match on a text copy, then drop it, so the real column keeps its type.
+    geocoded["_regno_str"] = geocoded["registered_charity_number"].astype(str)
+    geocoded = geocoded.merge(
+        iati.rename(columns={"registered_charity_number": "_regno_str"}),
+        on="_regno_str", how="left").drop(columns="_regno_str")
+    n_iati = geocoded["iati_publisher_id"].notna().sum()
+    print(f"IATI publishers: {n_iati:,} of {len(geocoded):,} ({n_iati / len(geocoded):.1%})")
+
     tags = pd.read_csv(args.tags)
     df = build_dataset(geocoded, tags)
 
     if args.preview:
         print("preview mode: skipping the headline dataset CSV")
     else:
-        df.to_csv(CSV_OUT, index=False)
+        # The slug is a map-only helper (see build_geojson); the dataset
+        # carries the publisher id.
+        df.drop(columns=["iati_publisher_slug"]).to_csv(CSV_OUT, index=False)
         print(f"Saved {len(df):,} rows to {CSV_OUT}")
 
     geojson = build_geojson(df, preview=args.preview, snapshot=args.snapshot)

@@ -120,13 +120,44 @@ as reliability.
 
 ## Cross-validation against register fields
 
-The register's self-reported classification tick-boxes ("Overseas
-Aid/Famine Relief", "Makes Grants To Organisations") and its
-count of overseas countries were never shown to the classifier, so they
-give an independent — though noisy and self-reported — cross-check on the
-engagement flag. Results are in the README's Validation section and
-`outputs/validation/cross_validation.md`; they are reported as agreement
-between two imperfect signals, not as accuracy.
+The direct test would be the annual return. Since the 2023 question set it
+has asked each charity which countries it delivered activities in
+(including via partners or third parties), whether it holds formal
+written agreements with partners delivering activities on its behalf
+outside the UK, and how much it spent in each country. But the Commission's published data-publication decisions for
+that question set (Annex 11 of the 2023–25 annual-return consultation
+outcome,
+https://www.gov.uk/government/consultations/charity-commission-revisions-to-the-annual-return-2023-25/outcome/annex-11-charity-annual-return-questions-2023-data-publication)
+list every one of those answers as not for publication, and they appear in
+neither the bulk extract nor the public register API. So, as that policy
+stands, no public field records how a charity engages overseas, and the
+cross-validation has to use substitutes.
+
+Two register substitutes were used: the self-reported classification
+tick-boxes ("Overseas Aid/Famine Relief", "Makes Grants To
+Organisations") and the count of overseas countries in the
+area-of-operation table. None of these were shown to the classifier, so
+they give an independent — though noisy and self-reported — cross-check
+on the engagement flag. Results are in the README's Validation section
+and `outputs/validation/cross_validation.md`; they are reported as
+agreement between two imperfect signals, not as accuracy.
+
+A third signal was added post hoc on 2026-08-15, after the pre-registered
+protocol had been scored: whether the charity publishes to the IATI
+aid-transparency registry (`src/fetch_iati.py`, snapshot recorded in
+`data/iati_manifest.json`). Publishing is a money-based fact the
+classifier never saw, but it is one-sided (publishing places a charity in
+the official aid-delivery chain, often as an FCDO funding condition; not
+publishing says nothing) and it covers about 1% of the population, almost
+all large charities. Of the 200 publishers in the dataset the model calls
+187 overseas-active (93.5%, Wilson 95% CI 89.2–96.2). It is a convergent
+check on a subset, not an accuracy figure; the 13 disagreements are named
+in the report and split between text-sparse fallback cases and
+international think tanks and policy networks — the latter a boundary the
+three-way taxonomy does not cleanly hold. The join matches only publishers
+declaring a `GB-CHC-` identifier: charities publishing under a Companies
+House id are missed, and one linked-charity reference was excluded rather
+than attributed to its parent (`data/iati_manifest.json`).
 
 ## Limitations
 
@@ -149,6 +180,17 @@ between two imperfect signals, not as accuracy.
    defensible benchmark, but a measure of deviation from human judgment,
    not from objective ground truth, and it folds ordinary human
    disagreement on a 17-class taxonomy into the reported model error.
+7. The IATI publisher check is post hoc, one-sided and confined to a small
+   large-charity subset; because publishing is often a funding condition,
+   it evidences presence in the aid-delivery chain rather than overseas
+   operations as such, and the join misses publishers who declare a
+   non-charity-register identifier. It must not be read as an accuracy
+   figure, and a blank `iati_publisher_id` must not be read as "does not
+   publish".
+8. The annual-return answers that would test the engagement flag directly
+   are collected but, under the Commission's data-publication decisions for
+   the 2023–25 question set, not published; if that policy changes, a
+   direct cross-validation should replace the substitutes used here.
 
 ## Licence and attribution
 

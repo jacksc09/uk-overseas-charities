@@ -1,0 +1,1646 @@
+{
+  "retrieved_at_utc": "2026-08-15T14:06:31Z",
+  "source": "IATI Registry public API (CKAN), organization_list with all_fields",
+  "endpoint": "https://iatiregistry.org/api/3/action/organization_list",
+  "publisher_page_form": "https://dashboard.iatistandard.org/publishers/{slug}/",
+  "licence_note": "Registry publisher metadata is open; each publisher declares its own licence for its DATA (recorded in the license_id column: a mix of CC, ODC and other open/attribution licences, a few blank). Only publisher identity fields (name, id, slug) plus that declared licence are kept.",
+  "total_publishers": 2084,
+  "gb_chc_publishers": 262,
+  "gb_chc_skipped": [
+    {
+      "declared_id": "GB-CHC-1128267-8",
+      "title": "HelpAge International UK",
+      "reason": "linked-charity reference"
+    }
+  ],
+  "other_scheme_counts": {
+    "NL-KVK": 203,
+    "GB-COH": 174,
+    "BE-BCE_KBO": 94,
+    "XM-DAC": 61,
+    "XI-IATI": 35,
+    "US-EIN": 32,
+    "BJ-IFU": 32,
+    "CH-FDJP": 30,
+    "DK-CVR": 29,
+    "KE-NCB": 27,
+    "KE-KRA": 23,
+    "US-EIN-13": 22,
+    "US-GOV": 21,
+    "GB-GOV": 20,
+    "XI-GRID": 19,
+    "ET-CSA": 19,
+    "BD-NAB": 18,
+    "NG-CAC": 18,
+    "XM-OCHA": 17,
+    "NP-SWC": 15,
+    "LB-MOI": 14,
+    "IN-MHA": 14,
+    "CA-CRA_ACR": 13,
+    "UG-RSB": 13,
+    "UG-NGO": 13,
+    "GB-SC": 13,
+    "UA-EDR": 12,
+    "XI-ROR": 12,
+    "GB-UKPRN": 12,
+    "US-EIN-52": 12,
+    "GH-RGD": 12,
+    "GH-DSW": 11,
+    "FR-RCS": 11,
+    "JO-CCD": 9,
+    "KE-RCO": 9,
+    "ID-DJP": 9,
+    "US-EIN-27": 9,
+    "?": 9,
+    "MZ-MOJ": 8,
+    "AF-MOE": 7,
+    "MZ-NUIT": 7,
+    "SS-RRC": 7,
+    "US-EIN-20": 7,
+    "US-EIN-47": 7,
+    "IE-CHY": 7,
+    "BI-NIF": 6,
+    "IN-MCA": 6,
+    "UG-NGB": 6,
+    "AU-ABN": 6,
+    "PH-SEC": 6,
+    "ID-KHH": 6,
+    "CO-RUE": 6,
+    "BF-MATD": 5,
+    "MW-NBM": 5,
+    "US-EIN-45": 5,
+    "TZ-NNCB": 5,
+    "ML-NIF": 5,
+    "SN-NINEA": 5,
+    "JO-MSD": 5,
+    "NO-BRC": 5,
+    "IT-CF": 5,
+    "CO-NIT": 5,
+    "US-EIN-26": 5,
+    "US-EIN-83": 4,
+    "NP-IRD": 4,
+    "US-EIN-84": 4,
+    "US-EIN-23": 4,
+    "HK-CR": 4,
+    "ZM-PCR": 4,
+    "ZA-NPO": 4,
+    "GB-GOR": 4,
+    "PE-SUNARP": 4,
+    "PK-SEC": 4,
+    "DE-CR-RA000217": 4,
+    "MY-SSM": 4,
+    "CH-FDJP-CHE": 4,
+    "US-EIN-53": 4,
+    "CO-CCB": 4,
+    "MX-RFC": 4,
+    "US-EIN-11": 3,
+    "KE-NGC": 3,
+    "RW-RRA": 3,
+    "FR-INSEE": 3,
+    "TZ-BRLA": 3,
+    "UG-NGB-5914": 3,
+    "NA-NAMRA": 3,
+    "XI-BRIDGE": 3,
+    "AM-SRALE": 3,
+    "TZ-TRA": 3,
+    "YE-MSAL": 3,
+    "MU-CR": 3,
+    "DE-CR-RA000220": 3,
+    "US-EIN-58": 3,
+    "TN-RNE": 3,
+    "ZW-PVO": 3,
+    "BO-NIT": 3,
+    "SE-ON-802011": 3,
+    "SE-ON-802402": 3,
+    "US-EIN-81": 3,
+    "MW-MRA": 3,
+    "SE-ON-802004": 3,
+    "SE-ON-802426": 3,
+    "ZW-ROD": 3,
+    "XM-DAC-7-PPR": 3,
+    "US-EIN-22": 3,
+    "BR-CNPJ": 3,
+    "BD-ROC-C": 3,
+    "SE-ON-202100": 3,
+    "US-EIN-91": 3,
+    "MW-RG": 3,
+    "SE-ON-802002": 3,
+    "TH-TIN": 2,
+    "FR-SIRET": 2,
+    "FR": 2,
+    "EC-RUC": 2,
+    "ET-MFA": 2,
+    "SE-ON-802016": 2,
+    "BD-ROC-S": 2,
+    "SE-ON-802013": 2,
+    "US-EIN-04": 2,
+    "CA_ON-ONT": 2,
+    "FI-PRO": 2,
+    "RS-APR": 2,
+    "NG-CAC-IT": 2,
+    "US-EIN-56": 2,
+    "GB-NIC": 2,
+    "SE-ON": 2,
+    "SE-ON-252002": 2,
+    "KG-OKPO": 2,
+    "NP-DAO-27": 2,
+    "CA": 2,
+    "NG-CAC-RC": 2,
+    "XM-DAC-5": 2,
+    "SE-ON-802400": 2,
+    "MM-MHA": 2,
+    "US-EIN-30": 2,
+    "AT-ZVR": 2,
+    "DE-CR": 2,
+    "TH-MOI": 2,
+    "SE-ON-845000": 2,
+    "LK-DRC": 2,
+    "AU-ACNC": 2,
+    "XM-DAC-701": 2,
+    "GH-TIN": 2,
+    "GB-HESA": 2,
+    "GB-EDU": 2,
+    "US-EIN-82": 2,
+    "PS-MOI": 2,
+    "IL-RA": 2,
+    "US-SAM": 2,
+    "XI-DUNS": 2,
+    "EG-CR": 2,
+    "ID-KHH-AHU": 2,
+    "SE-ON-802014": 2,
+    "SE-ON-802010": 2,
+    "ZA-CIT": 2,
+    "PS-TIN": 2,
+    "KH-INGO": 1,
+    "PK-NTN": 1,
+    "RW-RGB-61-RGB-NGO": 1,
+    "KE-NCB-218-051-9341": 1,
+    "ZW-PVO-039": 1,
+    "SE-ON-886500": 1,
+    "ZA-NPO-IT7504-1992": 1,
+    "ES-CIF": 1,
+    "SE-ON-802490": 1,
+    "SE-ON-802431": 1,
+    "PK-VSWA-511": 1,
+    "SE-ON-802539": 1,
+    "XM-DAC-50": 1,
+    "ZA-CIP-2007-0308903": 1,
+    "SE-ON-802007": 1,
+    "US-EIN-98": 1,
+    "BR-CNPJ-09294138-0001": 1,
+    "XM-DAC-6": 1,
+    "US-501C3": 1,
+    "US-EIN-32": 1,
+    "SE-ON-857206": 1,
+    "TZ-TRA-132-359": 1,
+    "CA_AB-ABT": 1,
+    "LB-MOI-1": 1,
+    "AE-HFZA": 1,
+    "MM-MHA-0072": 1,
+    "KE-RCO-C1": 1,
+    "BR-CNPJ-05357888-0001": 1,
+    "US-EIN-06": 1,
+    "KE-RCO-PVT-2016": 1,
+    "BE-GTCF": 1,
+    "AE-DMCC": 1,
+    "MZ-MOJ-821": 1,
+    "SE-ON-802457": 1,
+    "AU": 1,
+    "CO-RUE-900619925": 1,
+    "SE-ON-846003": 1,
+    "NP-DAO-DANG-18": 1,
+    "CH-FDJP-CHE-109-991": 1,
+    "MW-CNM-BCM": 1,
+    "XM-DAC-2": 1,
+    "SE-ON-802536": 1,
+    "GB-CC": 1,
+    "DAC": 1,
+    "DE": 1,
+    "CO-RUE-830140714": 1,
+    "TZ-NNCB-OONGO": 1,
+    "SE-ON-802428": 1,
+    "PK-VSWA-2028": 1,
+    "BR-CNPJ-14.563.354/0001": 1,
+    "ZA-NPO-209": 1,
+    "SE-ON-802467": 1,
+    "MW-CNM": 1,
+    "SE-ON-802015": 1,
+    "US-IRS": 1,
+    "BF-MATD-RNRD00045": 1,
+    "VN-MOST": 1,
+    "BR-CNPJ-62579164-0001": 1,
+    "ZA-NPO-053": 1,
+    "GT-NIT": 1,
+    "US-EIN-54": 1,
+    "ZM-RNGO": 1,
+    "IN-MCA-ACH": 1,
+    "ZA-CIP-2011-003386": 1,
+    "BR-CNPJ-30619995-0001": 1,
+    "US-EIN-75": 1,
+    "ZA-NPO-029": 1,
+    "IN-MHA-1070-99": 1,
+    "US-EIN-33": 1,
+    "CO-RUES": 1,
+    "SL-OARG": 1,
+    "CR-RPJ-3-002": 1,
+    "GB-LAE": 1,
+    "GE-RS": 1,
+    "PL-KRS": 1,
+    "KE-RSO": 1,
+    "US-EIN-31": 1,
+    "KE-NCB-OP-218-051-9994": 1,
+    "CI-MOI-474-MIS-DGAT-SAG": 1,
+    "CN-SAIC": 1,
+    "SE-ON-802489": 1,
+    "TN-TIN": 1,
+    "GE-NAPR": 1,
+    "XM-DAC-3": 1,
+    "GPAF-IMP": 1,
+    "SE-ON-802017": 1,
+    "YE-CR": 1,
+    "ZA-ROC": 1,
+    "IN-MCA-AAE": 1,
+    "KE-RCO-PLC": 1,
+    "KE-RCO-BN": 1,
+    "KE-RCO-CPR-2013": 1,
+    "CA-CC-020387": 1,
+    "FI-PRO-1993025": 1,
+    "SE-ON-875002": 1,
+    "ET-MOT": 1,
+    "XM-DAC-918": 1,
+    "TR-MOI-27-019": 1,
+    "ZA-CIP-2022-449689": 1,
+    "TZ-TRA-101-091": 1,
+    "TZ-NNCB-06NGO": 1,
+    "CA-CRA-89980-1815": 1,
+    "GT-RPJ": 1,
+    "DE-AG": 1,
+    "KE-NCB-218-051-93197": 1,
+    "FI-PRO-0998454": 1,
+    "NI-MIGOB": 1,
+    "YE-MSAL-473": 1,
+    "CH-FDJP-6602621019": 1,
+    "US-EIN-61": 1,
+    "FI": 1,
+    "NG-TIN-01535622": 1,
+    "AR-CENOC-16969": 1,
+    "DE-CR-RA000355": 1,
+    "SE-ON-802416": 1,
+    "SE-ON-894003": 1,
+    "CR-RPJ-3-006": 1,
+    "PA-PRP": 1,
+    "TZ-NNCB-INGO-R1": 1,
+    "US-EIN-14": 1,
+    "GB-COH-03580586": 1,
+    "ZA-NPO-036": 1,
+    "XM-DAC-40": 1,
+    "AT-UID": 1,
+    "SG-ACRA": 1,
+    "US-EIN-37": 1,
+    "MD-IDNO": 1,
+    "RW-RGB-77-RGB-NGO": 1,
+    "SE-ON-814000": 1,
+    "JO-COA-1701": 1,
+    "ZA-COA": 1,
+    "SO-COA-107-0290": 1,
+    "US-EIN-46": 1,
+    "SE-ON-802473": 1,
+    "ZA-CIP-2002-007758": 1,
+    "PK-VSWA-2172": 1,
+    "KE-NCB-OP.218-051-9841": 1,
+    "XM-DAC-301": 1,
+    "AR-CUIT-30-70806240": 1,
+    "BR-CNPJ-32121994-0001": 1,
+    "US-EIN-63": 1,
+    "ZA-CIP-2025-956558": 1,
+    "SO-COA-107-0081": 1,
+    "SL-NRA-1136607": 1,
+    "SE-ON-802001": 1,
+    "EG-MOSS": 1,
+    "JO-COA-0301": 1,
+    "SE-ON-802497": 1,
+    "JE-FSC": 1,
+    "BE-BCE_KB0": 1,
+    "LU-RCS": 1,
+    "SE-ON-802481": 1,
+    "XM-DAC-21": 1,
+    "ZA-CIP-1999-012979": 1,
+    "ZA-NPO-006": 1,
+    "BW-CIPA": 1,
+    "US-EIN-06-1597": 1,
+    "UG-204CBO": 1,
+    "SE-ON-855100": 1,
+    "NL-KVK-08215619": 1,
+    "TR-VKN": 1,
+    "SO-COA-107-0079": 1,
+    "NP-CRO-1158-065": 1,
+    "PK-NTN-9051408": 1,
+    "SE-ON-802465": 1,
+    "SE-ON-802401": 1,
+    "RW-RGB-114-RGB-RGO": 1,
+    "TR-MOI-27-018": 1,
+    "TJ-TIN": 1,
+    "LS-HEI-HEI-CRL-20252CNT": 1,
+    "XI-LEI": 1,
+    "LR-MPEA-NGO-AC": 1,
+    "SE-ON-817602": 1,
+    "XM-DAC-22": 1,
+    "SE-ON-802494": 1,
+    "ZA-NPO-025": 1,
+    "ES-DIR3": 1,
+    "IN": 1,
+    "TZ-TRA-106-620": 1,
+    "MM-MHA-0004": 1,
+    "ES-NIF": 1,
+    "US-EIN-38": 1,
+    "NZ": 1,
+    "IN-ITA": 1,
+    "MZ": 1,
+    "SL-NRA-1001562": 1,
+    "KE-RCO-CPR-2014": 1,
+    "YE-MSAL-18": 1,
+    "SO-MPND": 1,
+    "ZA-CIPC-2004-030488": 1,
+    "NG-TIN-18941011": 1,
+    "FI-PRO-00990390": 1,
+    "SV-NIT-9498-180400-101": 1,
+    "ZA-NPO-057": 1,
+    "BA-JIB": 1,
+    "IN-PAN": 1,
+    "KE-RCO-CPR-2010": 1,
+    "KR-GOV": 1,
+    "ZA-CIP-2005-028883": 1,
+    "TZ-NNCB-00NGO-R": 1,
+    "US-DOS": 1,
+    "IM-CR": 1,
+    "ZA-PBO": 1,
+    "SE-ON-802477": 1,
+    "ES-CIF-G": 1,
+    "US-EIN-99": 1,
+    "ZA-NPO-155": 1,
+    "DE-CR-RA000243": 1,
+    "RS-PIB": 1,
+    "YE-MOPIC": 1,
+    "SE-ON-802009": 1,
+    "SE-ON-802521": 1,
+    "PK-NTN-1433899": 1,
+    "CZ-ICO": 1,
+    "MG-NIF": 1,
+    "SE-ON-802404": 1,
+    "FI-PRO-1498487": 1,
+    "US-IRS-13": 1,
+    "SK-ZRSR": 1,
+    "IN-AR": 1,
+    "CO-RUE-860013779": 1,
+    "RW-RGB-020": 1,
+    "SE-ON-857205": 1,
+    "QA-MOI": 1,
+    "LB-MOI-37": 1,
+    "SE-ON-802478": 1,
+    "US-EIN-94": 1,
+    "TZ-TRA-110-664": 1,
+    "ZA-CIP-2007-012585": 1,
+    "IQ-NGO": 1,
+    "PE-RUC": 1,
+    "SE-ON-802452": 1,
+    "PK-MSW-633": 1,
+    "SE-ON-846001": 1,
+    "FI-PRO3087706": 1,
+    "US-EIN-74": 1,
+    "CO-RUE-900.683.942": 1,
+    "ZA-NPO-061": 1,
+    "ZA-CIP-2025-975529": 1,
+    "ZA-NPO-213": 1,
+    "DE-CR-RA000299": 1,
+    "YE-MSAL-49-M": 1,
+    "CH": 1,
+    "LR-MFDPNGO": 1,
+    "ZA-CIP-2021-421804": 1,
+    "ML-MAT-028-MAT-DNIC": 1,
+    "YE-MSAL-32-M": 1,
+    "US-EIN-35": 1,
+    "SE-ON-802546": 1,
+    "BD-ROC-C-107131": 1,
+    "PK-VSWA-DO-SW-JCD-VA": 1,
+    "PK-NTN-2158581": 1,
+    "SE": 1,
+    "XM-DAC-61": 1,
+    "SE-ON-802425": 1,
+    "ZA-PBO-064": 1,
+    "LB-MOI-30": 1,
+    "XM-DAC-69": 1,
+    "SL-OARG-1069356": 1,
+    "SE-ON-802405": 1,
+    "KE-NGCB": 1,
+    "KH-TIN- K009": 1,
+    "ZA-CIP": 1,
+    "ZA-NPO-048": 1,
+    "SE-ON-802435": 1,
+    "XI-IATI-5914": 1,
+    "ZA-NPO-081": 1,
+    "SE-ON-802003": 1,
+    "SE-ON-826000": 1,
+    "NE-DGI": 1,
+    "PK-VSWA-32": 1,
+    "KE-RCO-CPR-2009": 1,
+    "CA-CC": 1,
+    "TZ-BRE": 1,
+    "SE-ON-802501": 1,
+    "US-EIN-03": 1,
+    "PS-MOI-RA-22220": 1,
+    "SE-ON-252004": 1,
+    "BR-CNPJ-01567601-0001": 1,
+    "TZ-TRA-101-304": 1,
+    "BW-TIN": 1,
+    "RW-RGB-101-RGB-NGO": 1,
+    "KE-NCB-NGO": 1,
+    "SE-ON-802012": 1,
+    "UA-COA": 1,
+    "TZ-NNCB-00NGO-R2": 1,
+    "BE-BCEKB0": 1,
+    "PS-MOI-QR-209": 1,
+    "PS-MOI-QR-0049": 1,
+    "ZA-CIP-1997-015443": 1,
+    "TG-NIF": 1,
+    "MW-NBM-NGO-L-13": 1,
+    "SZ-CIT": 1,
+    "CA-CRA_ARC": 1,
+    "DE-CR-RA000209": 1,
+    "US-EIN-95": 1,
+    "21-PK": 1,
+    "PY-RUC-80025907": 1,
+    "SE-ON-802005": 1,
+    "IT-RI": 1,
+    "NP-CRO": 1,
+    "MW-CNM-C076": 1,
+    "XI-WIKIDATA": 1,
+    "YE-MSAL-288": 1,
+    "PS-MOI-QR-1420": 1,
+    "KE-NCB-218-051-9263": 1
+  },
+  "other_gb_publishers_not_matched": [
+    {
+      "declared_id": "GB-COH-13697512",
+      "title": "2X Global Limited",
+      "slug": "2xglobal"
+    },
+    {
+      "declared_id": "GB-COH-04644326",
+      "title": "Agulhas Applied Knowledge",
+      "slug": "aak"
+    },
+    {
+      "declared_id": "GB-COH-10633588",
+      "title": "Abt Britain Limited",
+      "slug": "abtbritain"
+    },
+    {
+      "declared_id": "GB-COH-05572704",
+      "title": "ACER International UK Ltd",
+      "slug": "aceruk"
+    },
+    {
+      "declared_id": "GB-COH-02525806",
+      "title": "Air Charter Service Group Ltd",
+      "slug": "acs_group"
+    },
+    {
+      "declared_id": "GB-COH-04276635",
+      "title": "act4africa",
+      "slug": "act4africa"
+    },
+    {
+      "declared_id": "GB-COH-294860",
+      "title": "ADD International (Action on Disability and Development)",
+      "slug": "addinternational"
+    },
+    {
+      "declared_id": "GB-COH-01846493",
+      "title": "AECOM",
+      "slug": "aecom"
+    },
+    {
+      "declared_id": "GB-COH-07026479",
+      "title": "AgDevCo",
+      "slug": "agdevco"
+    },
+    {
+      "declared_id": "GB-COH-1100897",
+      "title": "Aga Khan Foundation (United Kingdom)",
+      "slug": "akfuk73"
+    },
+    {
+      "declared_id": "GB-COH-08327972",
+      "title": "Aktis Strategy Ltd",
+      "slug": "aktis"
+    },
+    {
+      "declared_id": "GB-COH-5155300",
+      "title": "Alcis Holdings Limited",
+      "slug": "alcis"
+    },
+    {
+      "declared_id": "GB-COH-04481639",
+      "title": "Alinea International Ltd. UK",
+      "slug": "alinea_uk"
+    },
+    {
+      "declared_id": "GB-COH-12482833",
+      "title": "AmplifyChange",
+      "slug": "amplifychange"
+    },
+    {
+      "declared_id": "GB-COH-04589451",
+      "title": "ARK (Absolute Return for Kids)",
+      "slug": "ark"
+    },
+    {
+      "declared_id": "GB-COH-2732176",
+      "title": "Adam Smith International",
+      "slug": "asi"
+    },
+    {
+      "declared_id": "GB-COH-01245534",
+      "title": "Atos IT Services Ltd",
+      "slug": "atosuk"
+    },
+    {
+      "declared_id": "GB-COH-06133927",
+      "title": "Avanti Communications Plc",
+      "slug": "ava_admin"
+    },
+    {
+      "declared_id": "GB-COH-07177839",
+      "title": "Bboxx",
+      "slug": "bboxx"
+    },
+    {
+      "declared_id": "GB-COH-OC359103",
+      "title": "Boston Consulting Group UK LLP",
+      "slug": "bcg"
+    },
+    {
+      "declared_id": "GB-COH-OC305127",
+      "title": "BDO LLP",
+      "slug": "bdo"
+    },
+    {
+      "declared_id": "GB-GOV-13",
+      "title": "UK - Department for Business, Energy and Industrial Strategy (BEIS)",
+      "slug": "beis"
+    },
+    {
+      "declared_id": "GB-COH-03877777",
+      "title": "British International Investment plc",
+      "slug": "bii"
+    },
+    {
+      "declared_id": "GB-SC-044007",
+      "title": "Bioclimate Research and Development",
+      "slug": "bioclimate"
+    },
+    {
+      "declared_id": "GB-COH-08567792",
+      "title": "Behavioural Insights Team",
+      "slug": "bit"
+    },
+    {
+      "declared_id": "GB-CC-1098893",
+      "title": "Blue Ventures Conservation",
+      "slug": "blueventures"
+    },
+    {
+      "declared_id": "GB-UKPRN-10000824",
+      "title": "Bournemouth University Higher Education Corporation",
+      "slug": "bournemouth_university"
+    },
+    {
+      "declared_id": "GB-COH-11116719",
+      "title": "Brink Innovation",
+      "slug": "brink_innovation"
+    },
+    {
+      "declared_id": "GB-COH-03259922",
+      "title": "Crown Agents Limited",
+      "slug": "cal"
+    },
+    {
+      "declared_id": "GB-COH-09902551",
+      "title": "Camco Management Limited",
+      "slug": "camco"
+    },
+    {
+      "declared_id": "GB-COH-06274284",
+      "title": "Carbon Trust Advisory Ltd",
+      "slug": "carbontrustadvisory"
+    },
+    {
+      "declared_id": "GB-COH-05543952",
+      "title": "Cardno Emerging Markets",
+      "slug": "cardnoem"
+    },
+    {
+      "declared_id": "GB-GOV-11",
+      "title": "HM Revenue and Customs",
+      "slug": "cbu_hmrc"
+    },
+    {
+      "declared_id": "GB-GOR-EA53",
+      "title": "Centre for Environment, Fisheries and Aquaculture Science (Cefas)",
+      "slug": "cefas"
+    },
+    {
+      "declared_id": "GB-COH-14411359",
+      "title": "Chemonics Group UK Ltd",
+      "slug": "chemonics_uk"
+    },
+    {
+      "declared_id": "GB-NIC-101412",
+      "title": "Children in Crossfire",
+      "slug": "cicni"
+    },
+    {
+      "declared_id": "GB-SC-037597",
+      "title": "CIFAL Scotland",
+      "slug": "cifal"
+    },
+    {
+      "declared_id": "GB-COH-12675400",
+      "title": "Centre for Information Resilience",
+      "slug": "cir"
+    },
+    {
+      "declared_id": "GB-COH-02962250",
+      "title": "Commonwealth Local Government Forum",
+      "slug": "clgf_data"
+    },
+    {
+      "declared_id": "GB-COH-02863827",
+      "title": "ClientEarth",
+      "slug": "clientearth-1"
+    },
+    {
+      "declared_id": "GB-COH-10516061",
+      "title": "Cobra Collective CIC",
+      "slug": "cobracollective"
+    },
+    {
+      "declared_id": "GB-COH-3799145",
+      "title": "Coffey International Development",
+      "slug": "coffey"
+    },
+    {
+      "declared_id": "GB-LAE-LND",
+      "title": "City of London Corporation",
+      "slug": "col-greenfinance"
+    },
+    {
+      "declared_id": "GB-COH-08524506",
+      "title": "Common Seas CIC",
+      "slug": "commonseas"
+    },
+    {
+      "declared_id": "GB-COH-04930461",
+      "title": "Concordis International",
+      "slug": "concordis"
+    },
+    {
+      "declared_id": "GB-COH-8159144",
+      "title": "Construction Sector Transparency Initiative (CoST)",
+      "slug": "cost_uk"
+    },
+    {
+      "declared_id": "GB-COH-11373728",
+      "title": "Cowater UK Limited",
+      "slug": "cowateruk"
+    },
+    {
+      "declared_id": "GB-GOV-52",
+      "title": "Conflict, Stability and Security Fund",
+      "slug": "cssf"
+    },
+    {
+      "declared_id": "GB-COH-1858644",
+      "title": "DAI Global UK",
+      "slug": "dai-e"
+    },
+    {
+      "declared_id": "GB-COH-07629751",
+      "title": "Digital Campus",
+      "slug": "dc"
+    },
+    {
+      "declared_id": "GB-COH-07627789",
+      "title": "D. Capital Partners",
+      "slug": "dcapitalpartners"
+    },
+    {
+      "declared_id": "GB-GOV-12",
+      "title": "UK - Department for Digital, Culture, Media and Sport",
+      "slug": "dcms"
+    },
+    {
+      "declared_id": "GB-GOV-7",
+      "title": "UK - Department for Environment, Food and Rural Affairs",
+      "slug": "defra_transparency"
+    },
+    {
+      "declared_id": "GB-COH-08333641",
+      "title": "Delivery Associates Ltd",
+      "slug": "delivery_associates"
+    },
+    {
+      "declared_id": "GB-GOV-25",
+      "title": "UK Department for Energy, Security and Net Zero",
+      "slug": "desnz"
+    },
+    {
+      "declared_id": "GB-GOV-14",
+      "title": "UK \u2013 Department for Education",
+      "slug": "dfe"
+    },
+    {
+      "declared_id": "GB-GOV-10",
+      "title": "UK - Department of Health and Social Care (DHSC)",
+      "slug": "dhsc"
+    },
+    {
+      "declared_id": "GB-COH-06368740",
+      "title": "Development Initiatives Poverty Research",
+      "slug": "dipr"
+    },
+    {
+      "declared_id": "GB-GOV-15",
+      "title": "Department for International Trade",
+      "slug": "dit"
+    },
+    {
+      "declared_id": "GB-COH-06069322",
+      "title": "Development Media International",
+      "slug": "dmi_admin"
+    },
+    {
+      "declared_id": "GB-GOV-26",
+      "title": "UK - Department of Science, Innovation and Technology",
+      "slug": "dsit"
+    },
+    {
+      "declared_id": "GB-GOV-9",
+      "title": "UK - Department for Work and Pensions",
+      "slug": "dwp"
+    },
+    {
+      "declared_id": "GB-COH-01650169",
+      "title": "Ecorys UK",
+      "slug": "ecuk"
+    },
+    {
+      "declared_id": "GB-SC-SC032327",
+      "title": "EMMS International",
+      "slug": "emms"
+    },
+    {
+      "declared_id": "GB-COH-02622374",
+      "title": "Energy Saving Trust",
+      "slug": "energy_saving_trust"
+    },
+    {
+      "declared_id": "GB-COH-3578127",
+      "title": "Ethical Trading Initiative",
+      "slug": "eti"
+    },
+    {
+      "declared_id": "GB-COH-01926828",
+      "title": "Farm Africa",
+      "slug": "fa"
+    },
+    {
+      "declared_id": "GB-GOV-1",
+      "title": "UK - Foreign, Commonwealth and Development Office",
+      "slug": "fcdo"
+    },
+    {
+      "declared_id": "GB-COH-0277068",
+      "title": "Fauna & Flora International",
+      "slug": "ffi_publisher"
+    },
+    {
+      "declared_id": "GB-COH-07291220",
+      "title": "50 Eight Limited",
+      "slug": "fifty_eight"
+    },
+    {
+      "declared_id": "GB-COH-08195029",
+      "title": "Environmental Finance Limited, trading as Finance Earth",
+      "slug": "finance_earth"
+    },
+    {
+      "declared_id": "GB-COH-3008440",
+      "title": "Forests Monitor",
+      "slug": "fm"
+    },
+    {
+      "declared_id": "GB-COH-05393391",
+      "title": "Global Alliance for Livestock Veterinary Medicines",
+      "slug": "galvmed"
+    },
+    {
+      "declared_id": "GB-COH-11126312",
+      "title": "Global Disability Innovation Hub",
+      "slug": "gdihub"
+    },
+    {
+      "declared_id": "GB-COH-03580586-GEC",
+      "title": "Girls\u2019 Education Challenge \u2013 Fund Manager PwC",
+      "slug": "gecfundmanagerpwc"
+    },
+    {
+      "declared_id": "GB-NIC-073343",
+      "title": "Global Fund for Community Foundations",
+      "slug": "gfcf"
+    },
+    {
+      "declared_id": "GB-COH-14937701",
+      "title": "Global Interagency Security Forum - GISF CIC",
+      "slug": "gisf"
+    },
+    {
+      "declared_id": "GB-COH-02871809",
+      "title": "Global Witness",
+      "slug": "globalwitness"
+    },
+    {
+      "declared_id": "GB-COH-OC423567",
+      "title": "Gridworks Development Partners",
+      "slug": "gridworkspartners"
+    },
+    {
+      "declared_id": "GB-COH-02742969",
+      "title": "Genome Research Limited",
+      "slug": "grl"
+    },
+    {
+      "declared_id": "GB-COH-03054929",
+      "title": "DAI Global Health",
+      "slug": "healthpartners-international"
+    },
+    {
+      "declared_id": "GB-COH-1762840",
+      "title": "HelpAge International",
+      "slug": "helpage_international"
+    },
+    {
+      "declared_id": "GB-GOV-2",
+      "title": "HM Treasury",
+      "slug": "hmtfitb"
+    },
+    {
+      "declared_id": "GB-GOV-6",
+      "title": "UK - Home Office",
+      "slug": "homeoffice"
+    },
+    {
+      "declared_id": "GB-COH-4887855",
+      "title": "HealthProm",
+      "slug": "hp_12"
+    },
+    {
+      "declared_id": "GB-COH-06407873",
+      "title": "HTSPE",
+      "slug": "htspe"
+    },
+    {
+      "declared_id": "GB-COH-12075030",
+      "title": "Impact Knowledge Limited T/A Impact Capital Africa",
+      "slug": "ica"
+    },
+    {
+      "declared_id": "GB-COH-04161656",
+      "title": "ICF Consulting Services Ltd",
+      "slug": "icf"
+    },
+    {
+      "declared_id": "GB-COH-06587734",
+      "title": "InterClimate Network",
+      "slug": "icn"
+    },
+    {
+      "declared_id": "GB-COH-877338",
+      "title": "Institute of Development Studies",
+      "slug": "ids"
+    },
+    {
+      "declared_id": "GB-COH-954616",
+      "title": "Institute for Fiscal Studies",
+      "slug": "IFS"
+    },
+    {
+      "declared_id": "GB-COH-02188452",
+      "title": "International Institute for Environment and Development",
+      "slug": "iied"
+    },
+    {
+      "declared_id": "GB-COH-07921860",
+      "title": "Institutional Investors Group on Climate Change",
+      "slug": "iigcc"
+    },
+    {
+      "declared_id": "GB-COH-02651349",
+      "title": "DT Global UK",
+      "slug": "imcw_admin"
+    },
+    {
+      "declared_id": "GB-COH-04465125",
+      "title": "Imperial College of Science, Technology and Medicine",
+      "slug": "imperial"
+    },
+    {
+      "declared_id": "GB-COH-08828458",
+      "title": "International Network of People who Use Drugs (INPUD)",
+      "slug": "inpud_admin"
+    },
+    {
+      "declared_id": "GB-COH-07321996",
+      "title": "Integrity Research and Consultancy Ltd",
+      "slug": "integrity"
+    },
+    {
+      "declared_id": "GB-COH-4884328",
+      "title": "Integrity Action",
+      "slug": "integrity_action"
+    },
+    {
+      "declared_id": "GB-COH-2153193",
+      "title": "International Alert",
+      "slug": "international-alert"
+    },
+    {
+      "declared_id": "GB-COH-03613839",
+      "title": "IOD PARC",
+      "slug": "iodparc"
+    },
+    {
+      "declared_id": "GB-SC-035056",
+      "title": "International Primary Care Respiratory Group",
+      "slug": "ipcrg"
+    },
+    {
+      "declared_id": "GB-COH-06581421",
+      "title": "The Institute for Strategic Dialogue",
+      "slug": "isdglobal"
+    },
+    {
+      "declared_id": "GB-COH-4625800",
+      "title": "ISEAL",
+      "slug": "iseal"
+    },
+    {
+      "declared_id": "GB-COH-1869600",
+      "title": "Itad",
+      "slug": "itad"
+    },
+    {
+      "declared_id": "GB-COH-05380206",
+      "title": "Joint Nature Conservation Committee",
+      "slug": "jncc"
+    },
+    {
+      "declared_id": "GB-COH-RC000655",
+      "title": "Keele University",
+      "slug": "keele-university"
+    },
+    {
+      "declared_id": "GB-SC-SC048523",
+      "title": "Kids Operating Room",
+      "slug": "kidsor"
+    },
+    {
+      "declared_id": "GB-COH-RC000297",
+      "title": "King's College London",
+      "slug": "kingscollegelondon"
+    },
+    {
+      "declared_id": "GB-COH-OC301540",
+      "title": "KPMG LLP",
+      "slug": "kpmgllp"
+    },
+    {
+      "declared_id": "GB-COH-08705643",
+      "title": "Innovate UK KTN",
+      "slug": "ktn"
+    },
+    {
+      "declared_id": "GB-COH-1574821",
+      "title": "Landell Mills",
+      "slug": "landell-mills"
+    },
+    {
+      "declared_id": "GB-HESA-10004113",
+      "title": "Loughborough University",
+      "slug": "lboro"
+    },
+    {
+      "declared_id": "GB-COH-RC000721",
+      "title": "London Business School",
+      "slug": "lbs"
+    },
+    {
+      "declared_id": "GB-SC-SC037959",
+      "title": "Link Community Development Scotland",
+      "slug": "lcds"
+    },
+    {
+      "declared_id": "GB-COH-4075590",
+      "title": "LEAD International",
+      "slug": "lead_international"
+    },
+    {
+      "declared_id": "GB-COH-RC000658",
+      "title": "University of Leeds",
+      "slug": "leedsuni"
+    },
+    {
+      "declared_id": "GB-COH-RC000659",
+      "title": "University of Leicester",
+      "slug": "leics"
+    },
+    {
+      "declared_id": "GB-COH-00070527",
+      "title": "London School of Economics and Political Science",
+      "slug": "lse"
+    },
+    {
+      "declared_id": "GB-EDU-133903",
+      "title": "London School of Hygiene and Tropical Medicine",
+      "slug": "lshtm"
+    },
+    {
+      "declared_id": "GB-COH-SC100833",
+      "title": "LTS International Limited",
+      "slug": "lts"
+    },
+    {
+      "declared_id": "GB-COH-04105827",
+      "title": "MannionDaniels",
+      "slug": "manniondaniels"
+    },
+    {
+      "declared_id": "GB-SC-SCO45223",
+      "title": "Mary's Meals",
+      "slug": "marysmeals"
+    },
+    {
+      "declared_id": "GB-SC-SC030289",
+      "title": "Mercy Corps Europe",
+      "slug": "mce"
+    },
+    {
+      "declared_id": "GB-COH-FC012665",
+      "title": "McKinsey & Company",
+      "slug": "mck"
+    },
+    {
+      "declared_id": "GB-COH-OC364842",
+      "title": "M&C Saatchi",
+      "slug": "mcs_new"
+    },
+    {
+      "declared_id": "GB-COH-11594545",
+      "title": "McKinsey Development Partners",
+      "slug": "mdp"
+    },
+    {
+      "declared_id": "GB-COH-11080032",
+      "title": "MedAccess Guarantee Limited",
+      "slug": "medaccess"
+    },
+    {
+      "declared_id": "GB-COH-07840888",
+      "title": "MedicineAfrica Ltd.",
+      "slug": "medafrica"
+    },
+    {
+      "declared_id": "GB-COH-07669775",
+      "title": "GEMS Education Solutions",
+      "slug": "mgcubed"
+    },
+    {
+      "declared_id": "GB-GOV-27",
+      "title": "Ministry for Housing Communities and Local Government",
+      "slug": "mhclg"
+    },
+    {
+      "declared_id": "GB-GOV-28",
+      "title": "Medicines and Healthcare products Regulatory Agency (MHRA)",
+      "slug": "mhra"
+    },
+    {
+      "declared_id": "GB-COH-1134415",
+      "title": "MADE in Europe",
+      "slug": "mie-1134415"
+    },
+    {
+      "declared_id": "GB-COH-01630501",
+      "title": "Mokoro",
+      "slug": "mko"
+    },
+    {
+      "declared_id": "GB-COH-1110949",
+      "title": "Mott MacDonald Limited",
+      "slug": "mml"
+    },
+    {
+      "declared_id": "GB-GOR-PB57",
+      "title": "Marine Management Organisation",
+      "slug": "mmo"
+    },
+    {
+      "declared_id": "GB-COH-09297498",
+      "title": "mOm Incubators Limited",
+      "slug": "mom_incubators"
+    },
+    {
+      "declared_id": "GB-COH-OC350651",
+      "title": "Montrose International LLP",
+      "slug": "montrose_llp"
+    },
+    {
+      "declared_id": "GB-COH-RC000346",
+      "title": "UK - Medical Research Council",
+      "slug": "mrc"
+    },
+    {
+      "declared_id": "GB-COH-1102208",
+      "title": "MSI Reproductive Choices",
+      "slug": "msi"
+    },
+    {
+      "declared_id": "GB-COH-00637978",
+      "title": "Maxwell Stamp PLC",
+      "slug": "mstamp"
+    },
+    {
+      "declared_id": "GB-COH-03147724",
+      "title": "Mercy Ships UK Limited",
+      "slug": "msuk"
+    },
+    {
+      "declared_id": "GB-COH-02768268",
+      "title": "Cadmus International UK Limited",
+      "slug": "nathan"
+    },
+    {
+      "declared_id": "GB-GOR-OT1175",
+      "title": "Northern Ireland Cooperation Overseas Ltd",
+      "slug": "nico"
+    },
+    {
+      "declared_id": "GB-COH-01250443",
+      "title": "NIRAS Group (UK) Limited",
+      "slug": "niras_uk"
+    },
+    {
+      "declared_id": "GB-UKPRN-10001282",
+      "title": "University of Northumbria",
+      "slug": "northumbriauni"
+    },
+    {
+      "declared_id": "GB-COH-00986729",
+      "title": "Natural Resources Institute, University of Greenwich.",
+      "slug": "nri"
+    },
+    {
+      "declared_id": "GB-COH-SC349355",
+      "title": "Global Network of Sex Work Projects (NSWP)",
+      "slug": "nswp"
+    },
+    {
+      "declared_id": "GB-COH-07157505",
+      "title": "ODI Global Advisory Ltd",
+      "slug": "odi_sales_ltd"
+    },
+    {
+      "declared_id": "GB-GOV-24",
+      "title": "Office for National Statistics",
+      "slug": "ons"
+    },
+    {
+      "declared_id": "GB-COH-03122495",
+      "title": "Oxford Policy Management",
+      "slug": "opml"
+    },
+    {
+      "declared_id": "GB-COH-05322719",
+      "title": "Opportunity International UK",
+      "slug": "opportunity-international-uk"
+    },
+    {
+      "declared_id": "GB-COH-2695347",
+      "title": "Options Consultancy Services",
+      "slug": "options"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007774",
+      "title": "The University of Oxford",
+      "slug": "oxford"
+    },
+    {
+      "declared_id": "GB-COH-871954",
+      "title": "Practical Action",
+      "slug": "pa"
+    },
+    {
+      "declared_id": "GB-COH-2394229",
+      "title": "Palladium International Ltd (UK)",
+      "slug": "palladium"
+    },
+    {
+      "declared_id": "GB-COH-10333897",
+      "title": "Pegasys Limited",
+      "slug": "pegasys-eu"
+    },
+    {
+      "declared_id": "GB-COH-00559784",
+      "title": "The Pirbright Institute",
+      "slug": "pirbright_institute"
+    },
+    {
+      "declared_id": "GB-COH-1364201",
+      "title": "Plan International UK",
+      "slug": "plan_uk"
+    },
+    {
+      "declared_id": "GB-COH-08212556",
+      "title": "PositiveNegatives",
+      "slug": "posneg"
+    },
+    {
+      "declared_id": "GB-COH-04154075",
+      "title": "Penal Reform International",
+      "slug": "pri"
+    },
+    {
+      "declared_id": "GB-COH-7207947",
+      "title": "PRI Association",
+      "slug": "pri_icf"
+    },
+    {
+      "declared_id": "GB-GOV-50",
+      "title": "Cross-Government Prosperity Fund",
+      "slug": "prosperityfund"
+    },
+    {
+      "declared_id": "GB-COH-05712574",
+      "title": "Parhelion Underwriting Limited",
+      "slug": "pul"
+    },
+    {
+      "declared_id": "GB-COH-03580586",
+      "title": "PwC",
+      "slug": "pwc"
+    },
+    {
+      "declared_id": "GB-COH-07676886",
+      "title": "Publish What You Fund",
+      "slug": "pwyf"
+    },
+    {
+      "declared_id": "GB-COH-RC000710",
+      "title": "Queen Mary University of London",
+      "slug": "queen_mary_london"
+    },
+    {
+      "declared_id": "GB-SC-007983",
+      "title": "Royal Botanic Garden Edinburgh",
+      "slug": "rbge"
+    },
+    {
+      "declared_id": "GB-GOR-PB508",
+      "title": "Royal Botanic Gardens Kew",
+      "slug": "rbg_kew"
+    },
+    {
+      "declared_id": "GB-COH-4905100",
+      "title": "Resource Extraction Monitoring",
+      "slug": "rem"
+    },
+    {
+      "declared_id": "GB-COH-07964746",
+      "title": "Satellite Applications Catapult Ltd",
+      "slug": "satelliteapplicationscatapultltd"
+    },
+    {
+      "declared_id": "GB-SC-SC012302",
+      "title": "Scottish Catholic International Aid Fund (SCIAF)",
+      "slug": "sciaf"
+    },
+    {
+      "declared_id": "GB-GOV-21",
+      "title": "UK - Scottish Government",
+      "slug": "scottish_government"
+    },
+    {
+      "declared_id": "GB-COH-213890",
+      "title": "Save the Children UK",
+      "slug": "scuk"
+    },
+    {
+      "declared_id": "GB-COH-03846881",
+      "title": "Social Development Direct Limited",
+      "slug": "sddirect"
+    },
+    {
+      "declared_id": "GB-COH-7557881",
+      "title": "Social Impact Lab CIC",
+      "slug": "simlab"
+    },
+    {
+      "declared_id": "GB-COH-8835431",
+      "title": "Simprints",
+      "slug": "simprints"
+    },
+    {
+      "declared_id": "GB-SC-SC035314",
+      "title": "Scotland's International Development Alliance",
+      "slug": "sinda"
+    },
+    {
+      "declared_id": "GB-COH-NI630024",
+      "title": "Siren Associates",
+      "slug": "siren"
+    },
+    {
+      "declared_id": "GB-COH-RC000541",
+      "title": "SOAS University of London",
+      "slug": "soas"
+    },
+    {
+      "declared_id": "GB-COH-2100867",
+      "title": "SOS Sahel International UK",
+      "slug": "sossaheluk"
+    },
+    {
+      "declared_id": "GB-COH-RC000668",
+      "title": "University of Southampton",
+      "slug": "soton"
+    },
+    {
+      "declared_id": "GB-COH-04354941",
+      "title": "Sound Seekers Limited",
+      "slug": "soundseekers"
+    },
+    {
+      "declared_id": "GB-COH-02412299",
+      "title": "Stonewall Equality Limited",
+      "slug": "stonewa11"
+    },
+    {
+      "declared_id": "GB-SC-SC015263",
+      "title": "University of Strathclyde",
+      "slug": "strathclyde"
+    },
+    {
+      "declared_id": "GB-COH-10781862",
+      "title": "Smart Villages Research Group",
+      "slug": "svrg"
+    },
+    {
+      "declared_id": "GB-COH-07171834",
+      "title": "TAG International Development Limited",
+      "slug": "taginternational"
+    },
+    {
+      "declared_id": "GB-COH-OC422288",
+      "title": "Tropical Health Consulting",
+      "slug": "thc"
+    },
+    {
+      "declared_id": "GB-COH-RC000053",
+      "title": "The British Academy",
+      "slug": "thebritishacademy"
+    },
+    {
+      "declared_id": "GB-COH-10959095",
+      "title": "The Faraday Institution",
+      "slug": "thefaradayinstitution"
+    },
+    {
+      "declared_id": "GB-COH-05126149",
+      "title": "The MENTOR Initiative",
+      "slug": "the_mentor_initiative"
+    },
+    {
+      "declared_id": "GB-COH-09288843",
+      "title": "The Power of Nutrition",
+      "slug": "the_power_of_nutrition"
+    },
+    {
+      "declared_id": "GB-COH-05327824",
+      "title": "Tax Justice Network",
+      "slug": "tjn"
+    },
+    {
+      "declared_id": "GB-COH-03591514",
+      "title": "THE LEPROSY MISSION INTERNATIONAL",
+      "slug": "tlm_io"
+    },
+    {
+      "declared_id": "GB-COH-3031674",
+      "title": "Traidcraft Exchange",
+      "slug": "traidcraft"
+    },
+    {
+      "declared_id": "GB-COH-03788027",
+      "title": "Triple Line",
+      "slug": "tripleline_crownagents"
+    },
+    {
+      "declared_id": "GB-COH-NI21482",
+      "title": "Trocaire (Northern Ireland)",
+      "slug": "troc"
+    },
+    {
+      "declared_id": "GB-COH-02515034",
+      "title": "Timber Trade Federation Ltd.",
+      "slug": "ttf"
+    },
+    {
+      "declared_id": "GB-COH-RC000631",
+      "title": "University College London",
+      "slug": "ucl"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007141",
+      "title": "University of Central Lancashire",
+      "slug": "uclan"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007789",
+      "title": "University of East Anglia",
+      "slug": "uea_uk"
+    },
+    {
+      "declared_id": "GB-GOV-8",
+      "title": "UK - Ministry of Defence",
+      "slug": "ukmod"
+    },
+    {
+      "declared_id": "GB-COH-00041424",
+      "title": "Unilever",
+      "slug": "ul"
+    },
+    {
+      "declared_id": "GB-COH-08567552",
+      "title": "UN Global Compact Local Network UK",
+      "slug": "ungc-uk"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007786",
+      "title": "University of Bristol",
+      "slug": "unibristol"
+    },
+    {
+      "declared_id": "GB-COH-RC000664",
+      "title": "University of Nottingham",
+      "slug": "uni_of_nottingham"
+    },
+    {
+      "declared_id": "GB-EDU-133784",
+      "title": "University of Birmingham",
+      "slug": "universityofbirmingham"
+    },
+    {
+      "declared_id": "GB-COH-RC000652",
+      "title": "University of Essex",
+      "slug": "university_of_essex"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007783",
+      "title": "The University of Aberdeen",
+      "slug": "uoa"
+    },
+    {
+      "declared_id": "GB-SC-015096",
+      "title": "University of Dundee",
+      "slug": "uodcepmlp"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007790",
+      "title": "University of Edinburgh",
+      "slug": "uoe"
+    },
+    {
+      "declared_id": "GB-COH-RC000653",
+      "title": "University of Exeter",
+      "slug": "uoex"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007794",
+      "title": "University of Glasgow",
+      "slug": "uofg"
+    },
+    {
+      "declared_id": "GB-COH-RC000660",
+      "title": "University Of Liverpool",
+      "slug": "uol"
+    },
+    {
+      "declared_id": "GB-COH-RC000797",
+      "title": "The University of Manchester",
+      "slug": "uom"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007801",
+      "title": "University of Plymouth",
+      "slug": "uop"
+    },
+    {
+      "declared_id": "GB-COH-RC000672",
+      "title": "University of Sussex",
+      "slug": "uos"
+    },
+    {
+      "declared_id": "GB-COH-RC000679",
+      "title": "University of York",
+      "slug": "uoy"
+    },
+    {
+      "declared_id": "GB-COH-SC301345",
+      "title": "Upper Quartile",
+      "slug": "uq"
+    },
+    {
+      "declared_id": "GB-COH-02517018",
+      "title": "Universities UK",
+      "slug": "uuk"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007164",
+      "title": "The University of the West of England, Bristol",
+      "slug": "uwe"
+    },
+    {
+      "declared_id": "GB-UKPRN-10007800",
+      "title": "University of The West of Scotland",
+      "slug": "uwestscot"
+    },
+    {
+      "declared_id": "GB-COH-08239074",
+      "title": "Value for Women Ltd.",
+      "slug": "vfw"
+    },
+    {
+      "declared_id": "GB-COH-08100658",
+      "title": "Village Infrastructure Angels",
+      "slug": "via"
+    },
+    {
+      "declared_id": "GB-COH-2082273",
+      "title": "World Association for Christian Communication (UK)",
+      "slug": "wacc-uk"
+    },
+    {
+      "declared_id": "GB-HESA-0163",
+      "title": "University of Warwick",
+      "slug": "warwickpub123"
+    },
+    {
+      "declared_id": "GB-COH-353570",
+      "title": "Water Witness International",
+      "slug": "water-witness-international"
+    },
+    {
+      "declared_id": "GB-COH-02693163",
+      "title": "Westminster Foundation for Democracy",
+      "slug": "wfd"
+    },
+    {
+      "declared_id": "GB-COH-06735120",
+      "title": "Worldwide Hospice Palliative Care Alliance",
+      "slug": "whpca"
+    },
+    {
+      "declared_id": "GB-COH-NI011322",
+      "title": "War on Want NI",
+      "slug": "wowni"
+    },
+    {
+      "declared_id": "GB-COH-893249298",
+      "title": "Grand Bargain Test",
+      "slug": "wrgb"
+    },
+    {
+      "declared_id": "GB-COH-5419428",
+      "title": "Water & Sanitation for the Urban Poor (WSUP)",
+      "slug": "wsup"
+    },
+    {
+      "declared_id": "GB-COH-RC000749",
+      "title": "Zoological Society of London",
+      "slug": "zsl"
+    }
+  ],
+  "raw_file": "iati_publishers_2026-08-15.json",
+  "raw_sha256": "6830a5c7851894b66e0f868b229fa78a7b6fc51db995714c869a46175478d794",
+  "raw_bytes": 3130768
+}

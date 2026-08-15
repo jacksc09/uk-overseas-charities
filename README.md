@@ -51,6 +51,17 @@ Note on interpretation: the map/geocode shows each charity's **head-office
 location**, not where it works. For many small charities the registered
 office is a trustee's home.
 
+Why an engagement flag has to be inferred at all: since the 2023 question
+set, the register's annual return has collected exactly the fields that
+would answer it directly — the countries where a charity delivered
+activities (including via partners), whether it has formal written
+agreements with overseas delivery partners, and its spend by country — but
+the Commission's published data-publication decisions for that question set
+([Annex 11 of the 2023–25 annual-return consultation outcome](https://www.gov.uk/government/consultations/charity-commission-revisions-to-the-annual-return-2023-25/outcome/annex-11-charity-annual-return-questions-2023-data-publication))
+list every one of them as not for publication, and they appear in neither
+the bulk extract nor the public API. Under that policy, the
+overseas-engagement signal in this dataset has no public equivalent.
+
 ## Repo structure
 
 ```
@@ -155,6 +166,7 @@ row per main registered charity:
 | `website` | register (cleaned) | Contact website as a usable URL (junk removed, `https://` added when missing) |
 | `email` | register (cleaned) | Contact email, lowercased; invalid values dropped |
 | `phone` | register (cleaned) | Contact phone as given; obvious placeholders dropped |
+| `iati_publisher_id` | IATI Registry (post-hoc join) | The charity's IATI organisation identifier (`GB-CHC-<number>`) where it publishes to the aid-transparency registry under that id; blank otherwise (~1% of rows, skewed to large charities; see the note below on what a blank does and does not mean) |
 | `primary_sdg` (1–17) / `primary_sdg_title` | model | Most relevant UN Sustainable Development Goal |
 | `secondary_sdgs` | model | Up to two further goals (semicolon-joined) |
 | `focus_summary` | model | One-line plain-English focus |
@@ -171,9 +183,26 @@ and bare domains get an `https://` prefix. The register-verbatim values
 are preserved in `data/processed/international.csv`. Coverage: website
 65%, email 89%, phone 99%.
 
+`iati_publisher_id` is joined after classification from the public
+[IATI Registry](https://iatistandard.org/) publisher list (snapshot and
+checksum in `data/iati_manifest.json`; the GB-CHC subset in
+`data/processed/iati_publishers.csv`, fetched by `src/fetch_iati.py`).
+IATI is the open standard aid organisations use to publish what they fund
+and where, and publishing is often a condition of FCDO funding — so the
+column marks presence in the official aid-delivery chain. It is one-sided
+and incomplete: a blank does not mean a charity has no overseas work. Most
+small charities have no reason to publish, and the join only catches
+publishers who declared a `GB-CHC-` identifier — a charity that publishes
+under its Companies House number (`GB-COH-…`, as several large ones do) is
+not matched, and one publisher declaring a linked-charity reference
+(`GB-CHC-<number>-<n>`) is excluded rather than attributed to its parent.
+`data/iati_manifest.json` records both: it counts the publishers under
+every other scheme and lists the other GB-registered ones by name.
+
 `data/processed/charities.geojson` carries the geocoded, tagged subset as
 Point features (name, number, primary SDG, engagement, summary, contact
-details where available, and the overseas-countries list) for mapping.
+details where available, an IATI publisher slug where applicable, and the
+overseas-countries list) for mapping.
 
 ## Validation
 
@@ -275,6 +304,23 @@ tables are in
   includes large UK-domestic charities whose entries list many countries
   but whose own text describes no overseas operations, and the
   text-only classifier files them under `uk_fundraising_only`.
+- **IATI publishers vs the model's overseas-active classes (post hoc,
+  one-sided).** Added 2026-08-15, after the pre-registered protocol was
+  scored. Of the 200 charities in the dataset that publish to the IATI
+  aid-transparency registry under their charity number (others publish
+  under a company number and are not matched) — a money-based fact the
+  classifier never saw — the model calls **187 (93.5%**, Wilson 95% CI
+  89.2–96.2) overseas-active.
+  This is a third convergent signal on a small, large-charity subset
+  (median income £2.95m against 66% of the population under £100k), and it
+  is one-sided: publishing places a charity in the official aid-delivery
+  chain (often an FCDO funding condition), while not publishing says
+  nothing. It is not an accuracy figure. The 13 disagreements are named in
+  the report and split two ways: seven are the documented text-sparse
+  fallback (RSPB, RNLI, NFER…), six are think tanks and policy networks
+  whose text is explicitly international but who advise or convene rather
+  than run or fund projects abroad (ODI, RUSI, Saferworld…) — a boundary
+  the three-way taxonomy does not cleanly hold.
 
 ## Licence and attribution
 
@@ -287,3 +333,10 @@ tables are in
   database right 2026; contains Royal Mail data © Royal Mail copyright and
   database right 2026; source: Office for National Statistics licensed under
   the Open Government Licence v3.0.
+- The `iati_publisher_id` column uses publisher-identity metadata from the
+  [IATI Registry](https://iatistandard.org/)'s public API (retrieved
+  2026-08-15; see `data/iati_manifest.json`). Each publisher declares its
+  own licence for its data (a mix of CC, ODC and other open or attribution
+  licences, a few blank — recorded per publisher in
+  `data/processed/iati_publishers.csv`); only publisher name, identifier,
+  page slug and that declared licence are kept here.

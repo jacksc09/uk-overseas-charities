@@ -184,6 +184,11 @@ function popupHtml(p) {
     if (dial.startsWith("+440")) dial = "+44" + dial.slice(4);
     if (dial) contact.push(`<a href="tel:${esc(dial)}">${esc(p.phone)}</a>`);
   }
+  // Charities that publish to the IATI aid-transparency registry (about 1%,
+  // mostly large ones) get a link to their public publisher page.
+  if (p.iati) {
+    contact.push(`<a href="https://dashboard.iatistandard.org/publishers/${esc(p.iati)}/" target="_blank" rel="noopener nofollow">IATI publisher &#8599;</a>`);
+  }
   return `
     <div class="popup-name">${esc(p.name)}</div>
     <span class="popup-badge" style="background:${SDG_COLORS[p.sdg]}">SDG ${p.sdg} &middot; ${esc(p.sdg_title)}</span>

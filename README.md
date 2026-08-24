@@ -219,7 +219,12 @@ dormant charity or no return filed. The page keeps the active filters in
 its web address, so any filtered view can be shared as a link, and
 **Download CSV** saves exactly the charities in view as an Excel-ready
 spreadsheet (same licence and caveats as the dataset). The map shows
-charities and their contact details, not volunteer vacancies.
+charities and their contact details, not volunteer vacancies. Page views
+are counted with [GoatCounter](https://www.goatcounter.com/), a
+privacy-respecting open-source counter that sets no cookies and stores
+no personal data; everything else on the page runs in your browser (the
+optional postcode jump queries postcodes.io with the postcode you type,
+and nothing more).
 
 ## Validation
 

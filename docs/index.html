@@ -73,6 +73,7 @@
 <header>
   <h1>UK overseas charities</h1>
   <span class="count" id="count">loading&hellip;</span>
+  <button id="clearFilters" hidden>Clear filters</button>
   <label>Goal:
     <select id="sdgFilter"><option value="">All SDGs</option></select>
   </label>
@@ -87,9 +88,22 @@
   <label>Country:
     <select id="countryFilter"><option value="">All countries</option></select>
   </label>
+  <label title="Latest reported income (financial years vary)">Income:
+    <select id="incomeFilter">
+      <option value="">All incomes</option>
+      <option value="under10k">Under &pound;10k</option>
+      <option value="10k-100k">&pound;10k &ndash; &pound;100k</option>
+      <option value="100k-1m">&pound;100k &ndash; &pound;1m</option>
+      <option value="1m-10m">&pound;1m &ndash; &pound;10m</option>
+      <option value="over10m">Over &pound;10m</option>
+      <option value="unknown">Income unknown</option>
+    </select>
+  </label>
   <label>Name:
     <input id="nameSearch" type="search" placeholder="e.g. water" size="14">
   </label>
+  <button id="copyLink" title="Copy a link that reopens the map with these filters">Copy link</button>
+  <button id="downloadCsvBtn" title="Download the charities currently shown as a spreadsheet">Download CSV</button>
   <label>Go to:
     <input id="postcodeBox" placeholder="postcode" size="9">
   </label>
@@ -109,6 +123,8 @@
   <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>
   (data: Charity Commission for England and Wales, snapshot <span id="snapshot">&hellip;</span>)
   &middot; Geocoding: postcodes.io &mdash; contains OS data &copy; Crown copyright and database right 2026.
+  &middot; Did this map help you find a charity?
+  <a href="https://github.com/jacksc09/uk-overseas-charities/issues/new?title=How%20I%20used%20the%20map&amp;body=What%20were%20you%20looking%20for%3F%0A%0ADid%20you%20find%20a%20charity%2C%20and%20what%20happened%20next%3F%0A%0AWho%20you%20are%20(optional)%3A%0A" target="_blank" rel="noopener">Share what happened</a>.
 </footer>
 
 <script>
@@ -122,6 +138,34 @@ const ENGAGEMENT_LABELS = {
   operates_directly_abroad: "Operates directly abroad",
   funds_partners_abroad: "Funds partners abroad",
   uk_fundraising_only: "UK fundraising only",
+};
+
+// Income filter bands. Log-scale steps, because incomes run from £0 to
+// over £1bn: a linear scale would cram over 90% of charities into its
+// first sliver. "unknown" is its own band so the ~7% of charities with no
+// reported figure stay findable rather than silently vanishing; a
+// reported £0 (usually a dormant charity or no return filed) is a real
+// value and counts as under £10k.
+function incomeBand(p) {
+  // p.income can legitimately be 0, which is falsy - so checks on it must
+  // compare against undefined, never truthiness.
+  if (p.income === undefined) return "unknown";
+  if (p.income < 10000) return "under10k";
+  if (p.income < 100000) return "10k-100k";
+  if (p.income < 1000000) return "100k-1m";
+  if (p.income < 10000000) return "1m-10m";
+  return "over10m";
+}
+
+// The five filter controls, keyed by the URL parameter each one uses.
+// The query string is the shareable record of the current view - a
+// filtered map is a link anyone can send or publish.
+const FILTER_PARAMS = {
+  sdg: "sdgFilter",
+  eng: "engFilter",
+  country: "countryFilter",
+  income: "incomeFilter",
+  q: "nameSearch",
 };
 
 const map = L.map("map").setView([53.0, -1.5], 6);
@@ -148,6 +192,7 @@ const clusterGroup = L.markerClusterGroup({
 map.addLayer(clusterGroup);
 
 let allFeatures = [];
+let snapshotDate = "unknown";  // register snapshot date, for CSV filenames
 
 // Escape a value before it goes into popup HTML. The data comes from the
 // public register, but names and contact fields can still contain
@@ -194,6 +239,7 @@ function popupHtml(p) {
     <span class="popup-badge" style="background:${SDG_COLORS[p.sdg]}">SDG ${p.sdg} &middot; ${esc(p.sdg_title)}</span>
     <span class="popup-badge" style="background:#555">${esc(ENGAGEMENT_LABELS[p.engagement] || p.engagement)}</span>
     <div>${esc(p.summary)}</div>
+    ${p.income !== undefined ? `<div class="popup-meta">Latest reported income &pound;${p.income.toLocaleString("en-GB")}</div>` : ""}
     ${contact.length ? `<div class="popup-contact">${contact.join(" &middot; ")}</div>` : ""}
     <div class="popup-meta">
       Confidence: SDG ${esc(p.sdg_conf)}, engagement ${esc(p.eng_conf)}<br>
@@ -218,21 +264,64 @@ function makeMarker(feature) {
   return marker;
 }
 
+// The features currently on the map - kept at top level so the CSV
+// download exports exactly what the user is looking at.
+let shownFeatures = [];
+
 function applyFilters() {
   const sdg = document.getElementById("sdgFilter").value;
   const eng = document.getElementById("engFilter").value;
   const country = document.getElementById("countryFilter").value;
+  const income = document.getElementById("incomeFilter").value;
   const q = document.getElementById("nameSearch").value.trim().toLowerCase();
-  const shown = allFeatures.filter((f) =>
+  shownFeatures = allFeatures.filter((f) =>
     (!sdg || f.properties.sdg === Number(sdg)) &&
     (!eng || f.properties.engagement === eng) &&
     (!country || f._countries.includes(country)) &&
+    (!income || f._band === income) &&
     (!q || f._nameLower.includes(q))
   );
   clusterGroup.clearLayers();
-  clusterGroup.addLayers(shown.map((f) => f._marker));
-  document.getElementById("count").textContent =
-    `showing ${shown.length.toLocaleString()} of ${allFeatures.length.toLocaleString()} mapped charities`;
+  clusterGroup.addLayers(shownFeatures.map((f) => f._marker));
+  document.getElementById("count").textContent = shownFeatures.length === 0
+    ? "no charities match these filters"
+    : `showing ${shownFeatures.length.toLocaleString()} of ${allFeatures.length.toLocaleString()} mapped charities`;
+  // The escape hatch appears whenever any filter is narrowing the map -
+  // doubly important for shared links that arrive with filters baked in.
+  document.getElementById("clearFilters").hidden = !(sdg || eng || country || income || q);
+  updateUrl();
+}
+
+// Mirror the active filters into the query string, so the address bar (and
+// the Copy link button) always holds a link to the current view.
+// replaceState, never pushState: filter clicks should not pile up history
+// entries - one press of Back leaves the site instead of undoing each one.
+function updateUrl() {
+  const params = new URLSearchParams();
+  for (const [param, id] of Object.entries(FILTER_PARAMS)) {
+    const v = document.getElementById(id).value.trim();
+    if (v) params.set(param, v);
+  }
+  const qs = params.toString();
+  history.replaceState(null, "", qs ? "?" + qs : location.pathname);
+}
+
+// Restore filters from a shared link. Must run after the selects are
+// populated (a value with no matching option would be dropped) and before
+// the first applyFilters(), so a shared link paints filtered from the
+// first render. Values that don't match any option are ignored.
+function readFiltersFromUrl() {
+  const params = new URLSearchParams(location.search);
+  for (const [param, id] of Object.entries(FILTER_PARAMS)) {
+    const v = params.get(param);
+    if (!v) continue;
+    const el = document.getElementById(id);
+    if (el.tagName === "SELECT") {
+      if ([...el.options].some((o) => o.value === v)) el.value = v;
+    } else {
+      el.value = v;
+    }
+  }
 }
 
 fetch("charities.geojson")
@@ -242,7 +331,8 @@ fetch("charities.geojson")
   })
   .then((data) => {
     allFeatures = data.features;
-    document.getElementById("snapshot").textContent = data.meta?.snapshot || "unknown";
+    snapshotDate = data.meta?.snapshot || "unknown";
+    document.getElementById("snapshot").textContent = snapshotDate;
 
     // Precompute what filtering needs and build each marker exactly once -
     // applyFilters then only chooses which existing markers to show,
@@ -251,6 +341,7 @@ fetch("charities.geojson")
       f._nameLower = f.properties.name.toLowerCase();
       // Split on "; " only - one country name contains commas.
       f._countries = f.properties.countries.split("; ");
+      f._band = incomeBand(f.properties);
       f._marker = makeMarker(f);
     });
 
@@ -298,15 +389,27 @@ fetch("charities.geojson")
       countrySelect.add(new Option(`${c} (${countryCounts[c].toLocaleString()})`, c));
     });
 
+    // Append counts to the income bands, mirroring the SDG filter - the
+    // "Under £10k" count is the small-charities story at a glance.
+    const bandCounts = {};
+    allFeatures.forEach((f) => { bandCounts[f._band] = (bandCounts[f._band] || 0) + 1; });
+    [...document.getElementById("incomeFilter").options].forEach((o) => {
+      if (o.value) o.text += ` (${(bandCounts[o.value] || 0).toLocaleString()})`;
+    });
+
     document.getElementById("sdgFilter").addEventListener("change", applyFilters);
     document.getElementById("engFilter").addEventListener("change", applyFilters);
     document.getElementById("countryFilter").addEventListener("change", applyFilters);
+    document.getElementById("incomeFilter").addEventListener("change", applyFilters);
     // Debounce the search box: filter once per typing pause, not per keystroke.
     let searchTimer;
     document.getElementById("nameSearch").addEventListener("input", () => {
       clearTimeout(searchTimer);
       searchTimer = setTimeout(applyFilters, 250);
     });
+    // A shared link's filters are applied here, after every select is
+    // populated and just before the first paint.
+    readFiltersFromUrl();
     applyFilters();
   })
   .catch((err) => {
@@ -353,6 +456,82 @@ document.getElementById("nearMe").addEventListener("click", () => {
     },
     () => { jumpStatus.textContent = "Location unavailable or permission denied"; },
   );
+});
+
+// --- Share and export: turn the current search into a link or a file ---
+
+document.getElementById("clearFilters").addEventListener("click", () => {
+  for (const id of Object.values(FILTER_PARAMS)) {
+    document.getElementById(id).value = "";
+  }
+  applyFilters();  // also resets the URL to the bare page
+});
+
+document.getElementById("copyLink").addEventListener("click", () => {
+  // The address bar is hidden in many mobile in-app browsers (where
+  // newsletter readers arrive), so offer an explicit copy button.
+  const btn = document.getElementById("copyLink");
+  navigator.clipboard.writeText(location.href).then(() => {
+    btn.textContent = "Copied ✓";
+    setTimeout(() => { btn.textContent = "Copy link"; }, 1500);
+  }, () => {
+    // Some embedded browsers block the clipboard - fall back to showing
+    // the link in a prompt, which is selectable and copyable everywhere.
+    window.prompt("Copy this link:", location.href);
+  });
+});
+
+// Quote one CSV value, RFC-4180 style: wrap in quotes when the value
+// contains a comma, quote or newline, doubling any quotes. No HTML
+// escaping here - esc() is for popup markup, not CSV cells.
+function csvField(v) {
+  const s = (v === undefined || v === null) ? "" : String(v);
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+}
+
+document.getElementById("downloadCsvBtn").addEventListener("click", () => {
+  if (shownFeatures.length === 0) {
+    jumpStatus.textContent = "Nothing to download - no charities match";
+    return;
+  }
+  const header = [
+    "name", "registered_charity_number", "register_url", "latest_income",
+    "overseas_countries", "primary_sdg", "primary_sdg_title",
+    "overseas_engagement", "focus_summary", "sdg_confidence",
+    "engagement_confidence", "website", "email", "phone",
+    "latitude", "longitude",
+  ];
+  const rows = shownFeatures.map((f) => {
+    const p = f.properties;
+    const [lon, lat] = f.geometry.coordinates;
+    return [
+      p.name, p.regno,
+      `https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/${p.orgno}`,
+      p.income !== undefined ? p.income : "",  // £0 is a real value; blank means unknown
+      p.countries, p.sdg, p.sdg_title, p.engagement, p.summary,
+      p.sdg_conf, p.eng_conf, p.web || "", p.email || "", p.phone || "",
+      lat, lon,
+    ].map(csvField).join(",");
+  });
+  // A byte-order mark plus CRLF endings so the file opens cleanly when
+  // double-clicked into Excel. (The machine-readable feed elsewhere in
+  // this repo is deliberately BOM-free - a spreadsheet audience and a
+  // CSV-parser audience want different bytes.)
+  const csv = "\uFEFF" + header.join(",") + "\r\n" + rows.join("\r\n") + "\r\n";
+  // Filename records the register snapshot and the active filters, so a
+  // saved file still says what it is and when it was true.
+  const slugParts = [];
+  for (const param of Object.keys(FILTER_PARAMS)) {
+    const v = new URLSearchParams(location.search).get(param);
+    if (v) slugParts.push(v.toLowerCase().replace(/[^a-z0-9]+/g, "-"));
+  }
+  const slug = (slugParts.join("_") || "all").slice(0, 40);
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `uk-overseas-charities_${snapshotDate}_${slug}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 });
 </script>
 </body>

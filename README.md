@@ -201,8 +201,25 @@ every other scheme and lists the other GB-registered ones by name.
 
 `data/processed/charities.geojson` carries the geocoded, tagged subset as
 Point features (name, number, primary SDG, engagement, summary, contact
-details where available, an IATI publisher slug where applicable, and the
-overseas-countries list) for mapping.
+details where available, an IATI publisher slug where applicable, latest
+reported income in whole £ where the register has a figure — financial
+years vary — and the overseas-countries list) for mapping.
+
+### Using the map
+
+The [map](https://jacksc09.github.io/uk-overseas-charities/) is a finding
+tool as much as a picture: filter by goal, engagement, country, income
+band and name, jump to a postcode, and open a charity's pin for its
+summary, income and contact details. The income bands exist because most
+of these charities are small — 71.3% of those with a reported income are
+under £100k (66.4% of all mapped charities; a further 7% report no
+figure) — and small charities are exactly the ones large directories
+bury. "Under £10k" includes charities reporting £0, which usually means a
+dormant charity or no return filed. The page keeps the active filters in
+its web address, so any filtered view can be shared as a link, and
+**Download CSV** saves exactly the charities in view as an Excel-ready
+spreadsheet (same licence and caveats as the dataset). The map shows
+charities and their contact details, not volunteer vacancies.
 
 ## Validation
 

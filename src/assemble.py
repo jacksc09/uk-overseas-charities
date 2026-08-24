@@ -174,6 +174,11 @@ def build_geojson(df: pd.DataFrame, preview: bool = False,
         # page; the id itself lives in the CSV.
         if pd.notna(row["iati_publisher_slug"]):
             props["iati"] = row["iati_publisher_slug"]
+        # Latest reported income (whole £, financial years vary). Omitted
+        # when the register has no figure, matching the contact-field
+        # pattern - note £0 is a real reported value, not "missing".
+        if pd.notna(row["latest_income"]):
+            props["income"] = int(row["latest_income"])
         props["countries"] = row["overseas_countries"]  # "; "-joined list
         features.append({
             "type": "Feature",

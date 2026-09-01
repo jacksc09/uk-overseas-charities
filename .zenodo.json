@@ -1,0 +1,40 @@
+{
+  "title": "UK Overseas Charities: an SDG-classified dataset of England and Wales registered charities operating internationally",
+  "upload_type": "dataset",
+  "version": "1.0.0",
+  "language": "eng",
+  "access_right": "open",
+  "license": "ogl-uk-3.0",
+  "creators": [
+    {
+      "name": "Chen, Jack",
+      "affiliation": "Eton College",
+      "orcid": "0009-0000-4253-9010"
+    }
+  ],
+  "keywords": [
+    "charities",
+    "nonprofit organisations",
+    "Sustainable Development Goals",
+    "SDG classification",
+    "international development",
+    "Charity Commission",
+    "England and Wales",
+    "geocoding",
+    "open data",
+    "large language model classification"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.31235/osf.io/tky7s",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint"
+    },
+    {
+      "identifier": "10.31235/osf.io/tky7s_v1",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint"
+    }
+  ],
+  "description": "<p>An open dataset of 19,688 active charities registered with the Charity Commission for England and Wales that operate internationally, built from the Commission's public register extract (snapshot of 9 July 2026), geocoded to head-office postcodes (95.8% geocoded), and classified by theme. Each charity carries one primary and up to two secondary UN Sustainable Development Goals, a one-line focus summary, and a three-way flag for how it engages overseas (operates directly abroad, funds partners abroad, UK fundraising only). Classification used a large language model (Claude Haiku 4.5, named here once for reproducibility) reading only each charity's own register text.</p><p>Validation: a stratified sample of 150 charities was frozen and hand-labelled blind by the author. Strict primary-SDG accuracy is 77.3% (95% CI 70.0 to 83.3%). Three-way overseas-engagement accuracy is 65.3% (95% CI 57.4 to 72.5%); a post hoc binary collapse of the two overseas-active classes reads 83.3% (125/150). Per-class tables and known failure modes are in outputs/validation/ and METHODS.md inside the archive.</p><p>The archive contains the main dataset (data/processed/uk_overseas_charities.csv), geocoded and GeoJSON variants, the SDG tag table, the full validation sheet, key and results, the pipeline source code, and the source of the interactive map published at https://jacksc09.github.io/uk-overseas-charities/.</p><p>Licensing: the derived classifications (SDG tags, engagement flags, confidence ratings, focus summaries) are released under CC0 1.0. Charity numbers and all register-derived fields contain public sector information licensed under the Open Government Licence v3.0 (data: Charity Commission for England and Wales). Postcode geocoding uses postcodes.io: contains OS data © Crown copyright and database right 2026; contains Royal Mail data © Royal Mail copyright and database right 2026; source: Office for National Statistics, licensed under the Open Government Licence v3.0. The iati_publisher_id column uses publisher-identity metadata from the IATI Registry; each publisher's declared licence is recorded per publisher in data/processed/iati_publishers.csv. The source code is released under the MIT License.</p><p>This dataset supplements a SocArXiv preprint (DOI 10.31235/osf.io/tky7s).</p>"
+}

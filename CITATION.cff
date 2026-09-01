@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: If you use this dataset, please cite it using the metadata below.
+type: dataset
+title: "UK Overseas Charities: an SDG-classified dataset of England and Wales registered charities operating internationally"
+authors:
+  - family-names: Chen
+    given-names: Jack
+    affiliation: Eton College
+    orcid: "https://orcid.org/0009-0000-4253-9010"
+version: 1.0.0
+date-released: "2026-08-31"
+repository-code: "https://github.com/jacksc09/uk-overseas-charities"
+url: "https://jacksc09.github.io/uk-overseas-charities/"
+license:
+  - OGL-UK-3.0
+  - CC0-1.0
+  - MIT
+keywords:
+  - charities
+  - Sustainable Development Goals
+  - Charity Commission
+  - England and Wales
+  - international development
+  - open data
+abstract: >-
+  An open dataset of 19,688 active England and Wales registered charities
+  that operate internationally, built from the Charity Commission's public
+  register extract (snapshot 9 July 2026), geocoded to head-office
+  postcodes, and classified with one primary and up to two secondary UN
+  Sustainable Development Goals plus a three-way overseas-engagement flag
+  by a large language model (Claude Haiku 4.5, named here once for
+  reproducibility). Validated against a blind hand-labelled sample of 150
+  charities: 77.3% strict primary-SDG accuracy (95% CI 70.0 to 83.3%).

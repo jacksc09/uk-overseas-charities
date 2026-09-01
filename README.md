@@ -346,6 +346,12 @@ tables are in
 
 ## Licence and attribution
 
+- The derived classifications (SDG tags, engagement flags, confidence
+  ratings, focus summaries) are released into the public domain under
+  [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
+  Attribution is appreciated but not required.
+- The source code in this repository is released under the
+  [MIT License](LICENSE).
 - Contains public sector information licensed under the
   [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
 - Register data is from the

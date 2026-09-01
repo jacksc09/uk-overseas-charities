@@ -1,5 +1,7 @@
 # UK Overseas Charities
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22221624.svg)](https://doi.org/10.5281/zenodo.22221624)
+
 An open dataset of the England & Wales registered charities that operate
 internationally, built from the Charity Commission's public register extract,
 geocoded to their head-office postcodes, and prepared for thematic
@@ -343,6 +345,16 @@ tables are in
   whose text is explicitly international but who advise or convene rather
   than run or fund projects abroad (ODI, RUSI, Saferworld…) — a boundary
   the three-way taxonomy does not cleanly hold.
+
+## How to cite
+
+Chen, J. (2026). UK Overseas Charities: an SDG-classified dataset of
+England and Wales registered charities operating internationally
+(v1.0.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22221625
+
+The badge at the top of this file resolves to the latest archived
+version; the DOI above pins v1.0.0. Machine-readable citation metadata
+is in [CITATION.cff](CITATION.cff).
 
 ## Licence and attribution
 

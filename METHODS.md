@@ -200,3 +200,6 @@ Postcode geocoding: postcodes.io — Contains OS data © Crown copyright and
 database right 2026; contains Royal Mail data © Royal Mail copyright and
 database right 2026; source: Office for National Statistics, licensed
 under the Open Government Licence v3.0.
+
+The dataset is archived on Zenodo: https://doi.org/10.5281/zenodo.22221624
+(this release: https://doi.org/10.5281/zenodo.22221625).

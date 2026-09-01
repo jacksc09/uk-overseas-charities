@@ -514,9 +514,7 @@ document.getElementById("downloadCsvBtn").addEventListener("click", () => {
     ].map(csvField).join(",");
   });
   // A byte-order mark plus CRLF endings so the file opens cleanly when
-  // double-clicked into Excel. (The machine-readable feed elsewhere in
-  // this repo is deliberately BOM-free - a spreadsheet audience and a
-  // CSV-parser audience want different bytes.)
+  // double-clicked into Excel.
   const csv = "\uFEFF" + header.join(",") + "\r\n" + rows.join("\r\n") + "\r\n";
   // Filename records the register snapshot and the active filters, so a
   // saved file still says what it is and when it was true.
